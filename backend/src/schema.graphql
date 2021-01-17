@@ -1,0 +1,10 @@
+# import * from '../generated/prisma-client/schema.graphql';
+
+type Query {
+  expenses: [Expense]
+}
+
+type Mutation {
+   createExpense(amount: Float, category: String, comments: String): Expense,
+   createIncome(amount: Float, category: String, comments: String): Income,
+}

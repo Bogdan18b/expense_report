@@ -2,4 +2,24 @@ type User {
   id: ID! @id
   name: String!
   email: String!
+  expenses: [Expense]
+  incomes: [Income]
+}
+
+type Expense {
+  id: ID! @id
+  amount: Float!
+  category: String!
+  comments: String
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}
+
+type Income {
+  id: ID! @id
+  amount: Float!
+  category: String!
+  comments: String
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
 }

@@ -16,6 +16,8 @@ export type AtLeastOne<T, U = { [K in keyof T]: Pick<T, K> }> = Partial<T> &
 export type Maybe<T> = T | undefined | null;
 
 export interface Exists {
+  expense: (where?: ExpenseWhereInput) => Promise<boolean>;
+  income: (where?: IncomeWhereInput) => Promise<boolean>;
   user: (where?: UserWhereInput) => Promise<boolean>;
 }
 
@@ -38,6 +40,44 @@ export interface Prisma {
    * Queries
    */
 
+  expense: (where: ExpenseWhereUniqueInput) => ExpenseNullablePromise;
+  expenses: (args?: {
+    where?: ExpenseWhereInput;
+    orderBy?: ExpenseOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => FragmentableArray<Expense>;
+  expensesConnection: (args?: {
+    where?: ExpenseWhereInput;
+    orderBy?: ExpenseOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => ExpenseConnectionPromise;
+  income: (where: IncomeWhereUniqueInput) => IncomeNullablePromise;
+  incomes: (args?: {
+    where?: IncomeWhereInput;
+    orderBy?: IncomeOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => FragmentableArray<Income>;
+  incomesConnection: (args?: {
+    where?: IncomeWhereInput;
+    orderBy?: IncomeOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => IncomeConnectionPromise;
   user: (where: UserWhereUniqueInput) => UserNullablePromise;
   users: (args?: {
     where?: UserWhereInput;
@@ -63,6 +103,38 @@ export interface Prisma {
    * Mutations
    */
 
+  createExpense: (data: ExpenseCreateInput) => ExpensePromise;
+  updateExpense: (args: {
+    data: ExpenseUpdateInput;
+    where: ExpenseWhereUniqueInput;
+  }) => ExpensePromise;
+  updateManyExpenses: (args: {
+    data: ExpenseUpdateManyMutationInput;
+    where?: ExpenseWhereInput;
+  }) => BatchPayloadPromise;
+  upsertExpense: (args: {
+    where: ExpenseWhereUniqueInput;
+    create: ExpenseCreateInput;
+    update: ExpenseUpdateInput;
+  }) => ExpensePromise;
+  deleteExpense: (where: ExpenseWhereUniqueInput) => ExpensePromise;
+  deleteManyExpenses: (where?: ExpenseWhereInput) => BatchPayloadPromise;
+  createIncome: (data: IncomeCreateInput) => IncomePromise;
+  updateIncome: (args: {
+    data: IncomeUpdateInput;
+    where: IncomeWhereUniqueInput;
+  }) => IncomePromise;
+  updateManyIncomes: (args: {
+    data: IncomeUpdateManyMutationInput;
+    where?: IncomeWhereInput;
+  }) => BatchPayloadPromise;
+  upsertIncome: (args: {
+    where: IncomeWhereUniqueInput;
+    create: IncomeCreateInput;
+    update: IncomeUpdateInput;
+  }) => IncomePromise;
+  deleteIncome: (where: IncomeWhereUniqueInput) => IncomePromise;
+  deleteManyIncomes: (where?: IncomeWhereInput) => BatchPayloadPromise;
   createUser: (data: UserCreateInput) => UserPromise;
   updateUser: (args: {
     data: UserUpdateInput;
@@ -88,6 +160,12 @@ export interface Prisma {
 }
 
 export interface Subscription {
+  expense: (
+    where?: ExpenseSubscriptionWhereInput
+  ) => ExpenseSubscriptionPayloadSubscription;
+  income: (
+    where?: IncomeSubscriptionWhereInput
+  ) => IncomeSubscriptionPayloadSubscription;
   user: (
     where?: UserSubscriptionWhereInput
   ) => UserSubscriptionPayloadSubscription;
@@ -101,6 +179,34 @@ export interface ClientConstructor<T> {
  * Types
  */
 
+export type ExpenseOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "amount_ASC"
+  | "amount_DESC"
+  | "category_ASC"
+  | "category_DESC"
+  | "comments_ASC"
+  | "comments_DESC"
+  | "createdAt_ASC"
+  | "createdAt_DESC"
+  | "updatedAt_ASC"
+  | "updatedAt_DESC";
+
+export type IncomeOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "amount_ASC"
+  | "amount_DESC"
+  | "category_ASC"
+  | "category_DESC"
+  | "comments_ASC"
+  | "comments_DESC"
+  | "createdAt_ASC"
+  | "createdAt_DESC"
+  | "updatedAt_ASC"
+  | "updatedAt_DESC";
+
 export type UserOrderByInput =
   | "id_ASC"
   | "id_DESC"
@@ -110,6 +216,158 @@ export type UserOrderByInput =
   | "email_DESC";
 
 export type MutationType = "CREATED" | "UPDATED" | "DELETED";
+
+export type ExpenseWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+}>;
+
+export interface ExpenseWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  amount?: Maybe<Float>;
+  amount_not?: Maybe<Float>;
+  amount_in?: Maybe<Float[] | Float>;
+  amount_not_in?: Maybe<Float[] | Float>;
+  amount_lt?: Maybe<Float>;
+  amount_lte?: Maybe<Float>;
+  amount_gt?: Maybe<Float>;
+  amount_gte?: Maybe<Float>;
+  category?: Maybe<String>;
+  category_not?: Maybe<String>;
+  category_in?: Maybe<String[] | String>;
+  category_not_in?: Maybe<String[] | String>;
+  category_lt?: Maybe<String>;
+  category_lte?: Maybe<String>;
+  category_gt?: Maybe<String>;
+  category_gte?: Maybe<String>;
+  category_contains?: Maybe<String>;
+  category_not_contains?: Maybe<String>;
+  category_starts_with?: Maybe<String>;
+  category_not_starts_with?: Maybe<String>;
+  category_ends_with?: Maybe<String>;
+  category_not_ends_with?: Maybe<String>;
+  comments?: Maybe<String>;
+  comments_not?: Maybe<String>;
+  comments_in?: Maybe<String[] | String>;
+  comments_not_in?: Maybe<String[] | String>;
+  comments_lt?: Maybe<String>;
+  comments_lte?: Maybe<String>;
+  comments_gt?: Maybe<String>;
+  comments_gte?: Maybe<String>;
+  comments_contains?: Maybe<String>;
+  comments_not_contains?: Maybe<String>;
+  comments_starts_with?: Maybe<String>;
+  comments_not_starts_with?: Maybe<String>;
+  comments_ends_with?: Maybe<String>;
+  comments_not_ends_with?: Maybe<String>;
+  createdAt?: Maybe<DateTimeInput>;
+  createdAt_not?: Maybe<DateTimeInput>;
+  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_lt?: Maybe<DateTimeInput>;
+  createdAt_lte?: Maybe<DateTimeInput>;
+  createdAt_gt?: Maybe<DateTimeInput>;
+  createdAt_gte?: Maybe<DateTimeInput>;
+  updatedAt?: Maybe<DateTimeInput>;
+  updatedAt_not?: Maybe<DateTimeInput>;
+  updatedAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_lt?: Maybe<DateTimeInput>;
+  updatedAt_lte?: Maybe<DateTimeInput>;
+  updatedAt_gt?: Maybe<DateTimeInput>;
+  updatedAt_gte?: Maybe<DateTimeInput>;
+  AND?: Maybe<ExpenseWhereInput[] | ExpenseWhereInput>;
+  OR?: Maybe<ExpenseWhereInput[] | ExpenseWhereInput>;
+  NOT?: Maybe<ExpenseWhereInput[] | ExpenseWhereInput>;
+}
+
+export type IncomeWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+}>;
+
+export interface IncomeWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  amount?: Maybe<Float>;
+  amount_not?: Maybe<Float>;
+  amount_in?: Maybe<Float[] | Float>;
+  amount_not_in?: Maybe<Float[] | Float>;
+  amount_lt?: Maybe<Float>;
+  amount_lte?: Maybe<Float>;
+  amount_gt?: Maybe<Float>;
+  amount_gte?: Maybe<Float>;
+  category?: Maybe<String>;
+  category_not?: Maybe<String>;
+  category_in?: Maybe<String[] | String>;
+  category_not_in?: Maybe<String[] | String>;
+  category_lt?: Maybe<String>;
+  category_lte?: Maybe<String>;
+  category_gt?: Maybe<String>;
+  category_gte?: Maybe<String>;
+  category_contains?: Maybe<String>;
+  category_not_contains?: Maybe<String>;
+  category_starts_with?: Maybe<String>;
+  category_not_starts_with?: Maybe<String>;
+  category_ends_with?: Maybe<String>;
+  category_not_ends_with?: Maybe<String>;
+  comments?: Maybe<String>;
+  comments_not?: Maybe<String>;
+  comments_in?: Maybe<String[] | String>;
+  comments_not_in?: Maybe<String[] | String>;
+  comments_lt?: Maybe<String>;
+  comments_lte?: Maybe<String>;
+  comments_gt?: Maybe<String>;
+  comments_gte?: Maybe<String>;
+  comments_contains?: Maybe<String>;
+  comments_not_contains?: Maybe<String>;
+  comments_starts_with?: Maybe<String>;
+  comments_not_starts_with?: Maybe<String>;
+  comments_ends_with?: Maybe<String>;
+  comments_not_ends_with?: Maybe<String>;
+  createdAt?: Maybe<DateTimeInput>;
+  createdAt_not?: Maybe<DateTimeInput>;
+  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_lt?: Maybe<DateTimeInput>;
+  createdAt_lte?: Maybe<DateTimeInput>;
+  createdAt_gt?: Maybe<DateTimeInput>;
+  createdAt_gte?: Maybe<DateTimeInput>;
+  updatedAt?: Maybe<DateTimeInput>;
+  updatedAt_not?: Maybe<DateTimeInput>;
+  updatedAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_lt?: Maybe<DateTimeInput>;
+  updatedAt_lte?: Maybe<DateTimeInput>;
+  updatedAt_gt?: Maybe<DateTimeInput>;
+  updatedAt_gte?: Maybe<DateTimeInput>;
+  AND?: Maybe<IncomeWhereInput[] | IncomeWhereInput>;
+  OR?: Maybe<IncomeWhereInput[] | IncomeWhereInput>;
+  NOT?: Maybe<IncomeWhereInput[] | IncomeWhereInput>;
+}
 
 export type UserWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
@@ -158,25 +416,347 @@ export interface UserWhereInput {
   email_not_starts_with?: Maybe<String>;
   email_ends_with?: Maybe<String>;
   email_not_ends_with?: Maybe<String>;
+  expenses_every?: Maybe<ExpenseWhereInput>;
+  expenses_some?: Maybe<ExpenseWhereInput>;
+  expenses_none?: Maybe<ExpenseWhereInput>;
+  incomes_every?: Maybe<IncomeWhereInput>;
+  incomes_some?: Maybe<IncomeWhereInput>;
+  incomes_none?: Maybe<IncomeWhereInput>;
   AND?: Maybe<UserWhereInput[] | UserWhereInput>;
   OR?: Maybe<UserWhereInput[] | UserWhereInput>;
   NOT?: Maybe<UserWhereInput[] | UserWhereInput>;
+}
+
+export interface ExpenseCreateInput {
+  id?: Maybe<ID_Input>;
+  amount: Float;
+  category: String;
+  comments?: Maybe<String>;
+}
+
+export interface ExpenseUpdateInput {
+  amount?: Maybe<Float>;
+  category?: Maybe<String>;
+  comments?: Maybe<String>;
+}
+
+export interface ExpenseUpdateManyMutationInput {
+  amount?: Maybe<Float>;
+  category?: Maybe<String>;
+  comments?: Maybe<String>;
+}
+
+export interface IncomeCreateInput {
+  id?: Maybe<ID_Input>;
+  amount: Float;
+  category: String;
+  comments?: Maybe<String>;
+}
+
+export interface IncomeUpdateInput {
+  amount?: Maybe<Float>;
+  category?: Maybe<String>;
+  comments?: Maybe<String>;
+}
+
+export interface IncomeUpdateManyMutationInput {
+  amount?: Maybe<Float>;
+  category?: Maybe<String>;
+  comments?: Maybe<String>;
 }
 
 export interface UserCreateInput {
   id?: Maybe<ID_Input>;
   name: String;
   email: String;
+  expenses?: Maybe<ExpenseCreateManyInput>;
+  incomes?: Maybe<IncomeCreateManyInput>;
+}
+
+export interface ExpenseCreateManyInput {
+  create?: Maybe<ExpenseCreateInput[] | ExpenseCreateInput>;
+  connect?: Maybe<ExpenseWhereUniqueInput[] | ExpenseWhereUniqueInput>;
+}
+
+export interface IncomeCreateManyInput {
+  create?: Maybe<IncomeCreateInput[] | IncomeCreateInput>;
+  connect?: Maybe<IncomeWhereUniqueInput[] | IncomeWhereUniqueInput>;
 }
 
 export interface UserUpdateInput {
   name?: Maybe<String>;
   email?: Maybe<String>;
+  expenses?: Maybe<ExpenseUpdateManyInput>;
+  incomes?: Maybe<IncomeUpdateManyInput>;
+}
+
+export interface ExpenseUpdateManyInput {
+  create?: Maybe<ExpenseCreateInput[] | ExpenseCreateInput>;
+  update?: Maybe<
+    | ExpenseUpdateWithWhereUniqueNestedInput[]
+    | ExpenseUpdateWithWhereUniqueNestedInput
+  >;
+  upsert?: Maybe<
+    | ExpenseUpsertWithWhereUniqueNestedInput[]
+    | ExpenseUpsertWithWhereUniqueNestedInput
+  >;
+  delete?: Maybe<ExpenseWhereUniqueInput[] | ExpenseWhereUniqueInput>;
+  connect?: Maybe<ExpenseWhereUniqueInput[] | ExpenseWhereUniqueInput>;
+  set?: Maybe<ExpenseWhereUniqueInput[] | ExpenseWhereUniqueInput>;
+  disconnect?: Maybe<ExpenseWhereUniqueInput[] | ExpenseWhereUniqueInput>;
+  deleteMany?: Maybe<ExpenseScalarWhereInput[] | ExpenseScalarWhereInput>;
+  updateMany?: Maybe<
+    | ExpenseUpdateManyWithWhereNestedInput[]
+    | ExpenseUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface ExpenseUpdateWithWhereUniqueNestedInput {
+  where: ExpenseWhereUniqueInput;
+  data: ExpenseUpdateDataInput;
+}
+
+export interface ExpenseUpdateDataInput {
+  amount?: Maybe<Float>;
+  category?: Maybe<String>;
+  comments?: Maybe<String>;
+}
+
+export interface ExpenseUpsertWithWhereUniqueNestedInput {
+  where: ExpenseWhereUniqueInput;
+  update: ExpenseUpdateDataInput;
+  create: ExpenseCreateInput;
+}
+
+export interface ExpenseScalarWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  amount?: Maybe<Float>;
+  amount_not?: Maybe<Float>;
+  amount_in?: Maybe<Float[] | Float>;
+  amount_not_in?: Maybe<Float[] | Float>;
+  amount_lt?: Maybe<Float>;
+  amount_lte?: Maybe<Float>;
+  amount_gt?: Maybe<Float>;
+  amount_gte?: Maybe<Float>;
+  category?: Maybe<String>;
+  category_not?: Maybe<String>;
+  category_in?: Maybe<String[] | String>;
+  category_not_in?: Maybe<String[] | String>;
+  category_lt?: Maybe<String>;
+  category_lte?: Maybe<String>;
+  category_gt?: Maybe<String>;
+  category_gte?: Maybe<String>;
+  category_contains?: Maybe<String>;
+  category_not_contains?: Maybe<String>;
+  category_starts_with?: Maybe<String>;
+  category_not_starts_with?: Maybe<String>;
+  category_ends_with?: Maybe<String>;
+  category_not_ends_with?: Maybe<String>;
+  comments?: Maybe<String>;
+  comments_not?: Maybe<String>;
+  comments_in?: Maybe<String[] | String>;
+  comments_not_in?: Maybe<String[] | String>;
+  comments_lt?: Maybe<String>;
+  comments_lte?: Maybe<String>;
+  comments_gt?: Maybe<String>;
+  comments_gte?: Maybe<String>;
+  comments_contains?: Maybe<String>;
+  comments_not_contains?: Maybe<String>;
+  comments_starts_with?: Maybe<String>;
+  comments_not_starts_with?: Maybe<String>;
+  comments_ends_with?: Maybe<String>;
+  comments_not_ends_with?: Maybe<String>;
+  createdAt?: Maybe<DateTimeInput>;
+  createdAt_not?: Maybe<DateTimeInput>;
+  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_lt?: Maybe<DateTimeInput>;
+  createdAt_lte?: Maybe<DateTimeInput>;
+  createdAt_gt?: Maybe<DateTimeInput>;
+  createdAt_gte?: Maybe<DateTimeInput>;
+  updatedAt?: Maybe<DateTimeInput>;
+  updatedAt_not?: Maybe<DateTimeInput>;
+  updatedAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_lt?: Maybe<DateTimeInput>;
+  updatedAt_lte?: Maybe<DateTimeInput>;
+  updatedAt_gt?: Maybe<DateTimeInput>;
+  updatedAt_gte?: Maybe<DateTimeInput>;
+  AND?: Maybe<ExpenseScalarWhereInput[] | ExpenseScalarWhereInput>;
+  OR?: Maybe<ExpenseScalarWhereInput[] | ExpenseScalarWhereInput>;
+  NOT?: Maybe<ExpenseScalarWhereInput[] | ExpenseScalarWhereInput>;
+}
+
+export interface ExpenseUpdateManyWithWhereNestedInput {
+  where: ExpenseScalarWhereInput;
+  data: ExpenseUpdateManyDataInput;
+}
+
+export interface ExpenseUpdateManyDataInput {
+  amount?: Maybe<Float>;
+  category?: Maybe<String>;
+  comments?: Maybe<String>;
+}
+
+export interface IncomeUpdateManyInput {
+  create?: Maybe<IncomeCreateInput[] | IncomeCreateInput>;
+  update?: Maybe<
+    | IncomeUpdateWithWhereUniqueNestedInput[]
+    | IncomeUpdateWithWhereUniqueNestedInput
+  >;
+  upsert?: Maybe<
+    | IncomeUpsertWithWhereUniqueNestedInput[]
+    | IncomeUpsertWithWhereUniqueNestedInput
+  >;
+  delete?: Maybe<IncomeWhereUniqueInput[] | IncomeWhereUniqueInput>;
+  connect?: Maybe<IncomeWhereUniqueInput[] | IncomeWhereUniqueInput>;
+  set?: Maybe<IncomeWhereUniqueInput[] | IncomeWhereUniqueInput>;
+  disconnect?: Maybe<IncomeWhereUniqueInput[] | IncomeWhereUniqueInput>;
+  deleteMany?: Maybe<IncomeScalarWhereInput[] | IncomeScalarWhereInput>;
+  updateMany?: Maybe<
+    | IncomeUpdateManyWithWhereNestedInput[]
+    | IncomeUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface IncomeUpdateWithWhereUniqueNestedInput {
+  where: IncomeWhereUniqueInput;
+  data: IncomeUpdateDataInput;
+}
+
+export interface IncomeUpdateDataInput {
+  amount?: Maybe<Float>;
+  category?: Maybe<String>;
+  comments?: Maybe<String>;
+}
+
+export interface IncomeUpsertWithWhereUniqueNestedInput {
+  where: IncomeWhereUniqueInput;
+  update: IncomeUpdateDataInput;
+  create: IncomeCreateInput;
+}
+
+export interface IncomeScalarWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  amount?: Maybe<Float>;
+  amount_not?: Maybe<Float>;
+  amount_in?: Maybe<Float[] | Float>;
+  amount_not_in?: Maybe<Float[] | Float>;
+  amount_lt?: Maybe<Float>;
+  amount_lte?: Maybe<Float>;
+  amount_gt?: Maybe<Float>;
+  amount_gte?: Maybe<Float>;
+  category?: Maybe<String>;
+  category_not?: Maybe<String>;
+  category_in?: Maybe<String[] | String>;
+  category_not_in?: Maybe<String[] | String>;
+  category_lt?: Maybe<String>;
+  category_lte?: Maybe<String>;
+  category_gt?: Maybe<String>;
+  category_gte?: Maybe<String>;
+  category_contains?: Maybe<String>;
+  category_not_contains?: Maybe<String>;
+  category_starts_with?: Maybe<String>;
+  category_not_starts_with?: Maybe<String>;
+  category_ends_with?: Maybe<String>;
+  category_not_ends_with?: Maybe<String>;
+  comments?: Maybe<String>;
+  comments_not?: Maybe<String>;
+  comments_in?: Maybe<String[] | String>;
+  comments_not_in?: Maybe<String[] | String>;
+  comments_lt?: Maybe<String>;
+  comments_lte?: Maybe<String>;
+  comments_gt?: Maybe<String>;
+  comments_gte?: Maybe<String>;
+  comments_contains?: Maybe<String>;
+  comments_not_contains?: Maybe<String>;
+  comments_starts_with?: Maybe<String>;
+  comments_not_starts_with?: Maybe<String>;
+  comments_ends_with?: Maybe<String>;
+  comments_not_ends_with?: Maybe<String>;
+  createdAt?: Maybe<DateTimeInput>;
+  createdAt_not?: Maybe<DateTimeInput>;
+  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_lt?: Maybe<DateTimeInput>;
+  createdAt_lte?: Maybe<DateTimeInput>;
+  createdAt_gt?: Maybe<DateTimeInput>;
+  createdAt_gte?: Maybe<DateTimeInput>;
+  updatedAt?: Maybe<DateTimeInput>;
+  updatedAt_not?: Maybe<DateTimeInput>;
+  updatedAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_lt?: Maybe<DateTimeInput>;
+  updatedAt_lte?: Maybe<DateTimeInput>;
+  updatedAt_gt?: Maybe<DateTimeInput>;
+  updatedAt_gte?: Maybe<DateTimeInput>;
+  AND?: Maybe<IncomeScalarWhereInput[] | IncomeScalarWhereInput>;
+  OR?: Maybe<IncomeScalarWhereInput[] | IncomeScalarWhereInput>;
+  NOT?: Maybe<IncomeScalarWhereInput[] | IncomeScalarWhereInput>;
+}
+
+export interface IncomeUpdateManyWithWhereNestedInput {
+  where: IncomeScalarWhereInput;
+  data: IncomeUpdateManyDataInput;
+}
+
+export interface IncomeUpdateManyDataInput {
+  amount?: Maybe<Float>;
+  category?: Maybe<String>;
+  comments?: Maybe<String>;
 }
 
 export interface UserUpdateManyMutationInput {
   name?: Maybe<String>;
   email?: Maybe<String>;
+}
+
+export interface ExpenseSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<ExpenseWhereInput>;
+  AND?: Maybe<ExpenseSubscriptionWhereInput[] | ExpenseSubscriptionWhereInput>;
+  OR?: Maybe<ExpenseSubscriptionWhereInput[] | ExpenseSubscriptionWhereInput>;
+  NOT?: Maybe<ExpenseSubscriptionWhereInput[] | ExpenseSubscriptionWhereInput>;
+}
+
+export interface IncomeSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<IncomeWhereInput>;
+  AND?: Maybe<IncomeSubscriptionWhereInput[] | IncomeSubscriptionWhereInput>;
+  OR?: Maybe<IncomeSubscriptionWhereInput[] | IncomeSubscriptionWhereInput>;
+  NOT?: Maybe<IncomeSubscriptionWhereInput[] | IncomeSubscriptionWhereInput>;
 }
 
 export interface UserSubscriptionWhereInput {
@@ -194,53 +774,65 @@ export interface NodeNode {
   id: ID_Output;
 }
 
-export interface User {
+export interface Expense {
   id: ID_Output;
-  name: String;
-  email: String;
+  amount: Float;
+  category: String;
+  comments?: String;
+  createdAt: DateTimeOutput;
+  updatedAt: DateTimeOutput;
 }
 
-export interface UserPromise extends Promise<User>, Fragmentable {
+export interface ExpensePromise extends Promise<Expense>, Fragmentable {
   id: () => Promise<ID_Output>;
-  name: () => Promise<String>;
-  email: () => Promise<String>;
+  amount: () => Promise<Float>;
+  category: () => Promise<String>;
+  comments: () => Promise<String>;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
 }
 
-export interface UserSubscription
-  extends Promise<AsyncIterator<User>>,
+export interface ExpenseSubscription
+  extends Promise<AsyncIterator<Expense>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
-  name: () => Promise<AsyncIterator<String>>;
-  email: () => Promise<AsyncIterator<String>>;
+  amount: () => Promise<AsyncIterator<Float>>;
+  category: () => Promise<AsyncIterator<String>>;
+  comments: () => Promise<AsyncIterator<String>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
 
-export interface UserNullablePromise
-  extends Promise<User | null>,
+export interface ExpenseNullablePromise
+  extends Promise<Expense | null>,
     Fragmentable {
   id: () => Promise<ID_Output>;
-  name: () => Promise<String>;
-  email: () => Promise<String>;
+  amount: () => Promise<Float>;
+  category: () => Promise<String>;
+  comments: () => Promise<String>;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
 }
 
-export interface UserConnection {
+export interface ExpenseConnection {
   pageInfo: PageInfo;
-  edges: UserEdge[];
+  edges: ExpenseEdge[];
 }
 
-export interface UserConnectionPromise
-  extends Promise<UserConnection>,
+export interface ExpenseConnectionPromise
+  extends Promise<ExpenseConnection>,
     Fragmentable {
   pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<UserEdge>>() => T;
-  aggregate: <T = AggregateUserPromise>() => T;
+  edges: <T = FragmentableArray<ExpenseEdge>>() => T;
+  aggregate: <T = AggregateExpensePromise>() => T;
 }
 
-export interface UserConnectionSubscription
-  extends Promise<AsyncIterator<UserConnection>>,
+export interface ExpenseConnectionSubscription
+  extends Promise<AsyncIterator<ExpenseConnection>>,
     Fragmentable {
   pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<UserEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateUserSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<ExpenseEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateExpenseSubscription>() => T;
 }
 
 export interface PageInfo {
@@ -264,6 +856,236 @@ export interface PageInfoSubscription
   hasPreviousPage: () => Promise<AsyncIterator<Boolean>>;
   startCursor: () => Promise<AsyncIterator<String>>;
   endCursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface ExpenseEdge {
+  node: Expense;
+  cursor: String;
+}
+
+export interface ExpenseEdgePromise extends Promise<ExpenseEdge>, Fragmentable {
+  node: <T = ExpensePromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface ExpenseEdgeSubscription
+  extends Promise<AsyncIterator<ExpenseEdge>>,
+    Fragmentable {
+  node: <T = ExpenseSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AggregateExpense {
+  count: Int;
+}
+
+export interface AggregateExpensePromise
+  extends Promise<AggregateExpense>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateExpenseSubscription
+  extends Promise<AsyncIterator<AggregateExpense>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface Income {
+  id: ID_Output;
+  amount: Float;
+  category: String;
+  comments?: String;
+  createdAt: DateTimeOutput;
+  updatedAt: DateTimeOutput;
+}
+
+export interface IncomePromise extends Promise<Income>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  amount: () => Promise<Float>;
+  category: () => Promise<String>;
+  comments: () => Promise<String>;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+}
+
+export interface IncomeSubscription
+  extends Promise<AsyncIterator<Income>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  amount: () => Promise<AsyncIterator<Float>>;
+  category: () => Promise<AsyncIterator<String>>;
+  comments: () => Promise<AsyncIterator<String>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
+export interface IncomeNullablePromise
+  extends Promise<Income | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  amount: () => Promise<Float>;
+  category: () => Promise<String>;
+  comments: () => Promise<String>;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+}
+
+export interface IncomeConnection {
+  pageInfo: PageInfo;
+  edges: IncomeEdge[];
+}
+
+export interface IncomeConnectionPromise
+  extends Promise<IncomeConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<IncomeEdge>>() => T;
+  aggregate: <T = AggregateIncomePromise>() => T;
+}
+
+export interface IncomeConnectionSubscription
+  extends Promise<AsyncIterator<IncomeConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<IncomeEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateIncomeSubscription>() => T;
+}
+
+export interface IncomeEdge {
+  node: Income;
+  cursor: String;
+}
+
+export interface IncomeEdgePromise extends Promise<IncomeEdge>, Fragmentable {
+  node: <T = IncomePromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface IncomeEdgeSubscription
+  extends Promise<AsyncIterator<IncomeEdge>>,
+    Fragmentable {
+  node: <T = IncomeSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AggregateIncome {
+  count: Int;
+}
+
+export interface AggregateIncomePromise
+  extends Promise<AggregateIncome>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateIncomeSubscription
+  extends Promise<AsyncIterator<AggregateIncome>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface User {
+  id: ID_Output;
+  name: String;
+  email: String;
+}
+
+export interface UserPromise extends Promise<User>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  name: () => Promise<String>;
+  email: () => Promise<String>;
+  expenses: <T = FragmentableArray<Expense>>(args?: {
+    where?: ExpenseWhereInput;
+    orderBy?: ExpenseOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  incomes: <T = FragmentableArray<Income>>(args?: {
+    where?: IncomeWhereInput;
+    orderBy?: IncomeOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+}
+
+export interface UserSubscription
+  extends Promise<AsyncIterator<User>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  name: () => Promise<AsyncIterator<String>>;
+  email: () => Promise<AsyncIterator<String>>;
+  expenses: <T = Promise<AsyncIterator<ExpenseSubscription>>>(args?: {
+    where?: ExpenseWhereInput;
+    orderBy?: ExpenseOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  incomes: <T = Promise<AsyncIterator<IncomeSubscription>>>(args?: {
+    where?: IncomeWhereInput;
+    orderBy?: IncomeOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+}
+
+export interface UserNullablePromise
+  extends Promise<User | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  name: () => Promise<String>;
+  email: () => Promise<String>;
+  expenses: <T = FragmentableArray<Expense>>(args?: {
+    where?: ExpenseWhereInput;
+    orderBy?: ExpenseOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  incomes: <T = FragmentableArray<Income>>(args?: {
+    where?: IncomeWhereInput;
+    orderBy?: IncomeOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+}
+
+export interface UserConnection {
+  pageInfo: PageInfo;
+  edges: UserEdge[];
+}
+
+export interface UserConnectionPromise
+  extends Promise<UserConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<UserEdge>>() => T;
+  aggregate: <T = AggregateUserPromise>() => T;
+}
+
+export interface UserConnectionSubscription
+  extends Promise<AsyncIterator<UserConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<UserEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateUserSubscription>() => T;
 }
 
 export interface UserEdge {
@@ -313,6 +1135,118 @@ export interface BatchPayloadSubscription
   extends Promise<AsyncIterator<BatchPayload>>,
     Fragmentable {
   count: () => Promise<AsyncIterator<Long>>;
+}
+
+export interface ExpenseSubscriptionPayload {
+  mutation: MutationType;
+  node: Expense;
+  updatedFields: String[];
+  previousValues: ExpensePreviousValues;
+}
+
+export interface ExpenseSubscriptionPayloadPromise
+  extends Promise<ExpenseSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = ExpensePromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = ExpensePreviousValuesPromise>() => T;
+}
+
+export interface ExpenseSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<ExpenseSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = ExpenseSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = ExpensePreviousValuesSubscription>() => T;
+}
+
+export interface ExpensePreviousValues {
+  id: ID_Output;
+  amount: Float;
+  category: String;
+  comments?: String;
+  createdAt: DateTimeOutput;
+  updatedAt: DateTimeOutput;
+}
+
+export interface ExpensePreviousValuesPromise
+  extends Promise<ExpensePreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  amount: () => Promise<Float>;
+  category: () => Promise<String>;
+  comments: () => Promise<String>;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+}
+
+export interface ExpensePreviousValuesSubscription
+  extends Promise<AsyncIterator<ExpensePreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  amount: () => Promise<AsyncIterator<Float>>;
+  category: () => Promise<AsyncIterator<String>>;
+  comments: () => Promise<AsyncIterator<String>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
+export interface IncomeSubscriptionPayload {
+  mutation: MutationType;
+  node: Income;
+  updatedFields: String[];
+  previousValues: IncomePreviousValues;
+}
+
+export interface IncomeSubscriptionPayloadPromise
+  extends Promise<IncomeSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = IncomePromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = IncomePreviousValuesPromise>() => T;
+}
+
+export interface IncomeSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<IncomeSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = IncomeSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = IncomePreviousValuesSubscription>() => T;
+}
+
+export interface IncomePreviousValues {
+  id: ID_Output;
+  amount: Float;
+  category: String;
+  comments?: String;
+  createdAt: DateTimeOutput;
+  updatedAt: DateTimeOutput;
+}
+
+export interface IncomePreviousValuesPromise
+  extends Promise<IncomePreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  amount: () => Promise<Float>;
+  category: () => Promise<String>;
+  comments: () => Promise<String>;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+}
+
+export interface IncomePreviousValuesSubscription
+  extends Promise<AsyncIterator<IncomePreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  amount: () => Promise<AsyncIterator<Float>>;
+  category: () => Promise<AsyncIterator<String>>;
+  comments: () => Promise<AsyncIterator<String>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
 
 export interface UserSubscriptionPayload {
@@ -369,9 +1303,24 @@ export type ID_Input = string | number;
 export type ID_Output = string;
 
 /*
+The `Float` scalar type represents signed double-precision fractional values as specified by [IEEE 754](https://en.wikipedia.org/wiki/IEEE_floating_point).
+*/
+export type Float = number;
+
+/*
 The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
 */
 export type String = string;
+
+/*
+DateTime scalar input type, allowing Date
+*/
+export type DateTimeInput = Date | string;
+
+/*
+DateTime scalar output type, which is always a string
+*/
+export type DateTimeOutput = string;
 
 /*
 The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.
@@ -392,6 +1341,14 @@ export type Long = string;
 export const models: Model[] = [
   {
     name: "User",
+    embedded: false
+  },
+  {
+    name: "Expense",
+    embedded: false
+  },
+  {
+    name: "Income",
     embedded: false
   }
 ];

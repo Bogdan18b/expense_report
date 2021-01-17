@@ -1,4 +1,3 @@
-require('dotenv').config();
 const { Prisma } = require('prisma-binding');
 const {typeDefs} = require('../generated/prisma-client/prisma-schema');
 
