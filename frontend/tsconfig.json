@@ -20,7 +20,16 @@
     "noEmit": true,
     "jsx": "preserve"
   },
-  "typeRoots": ["types", "node_modules/@types"],
+  "typeRoots": [
+    "types",
+    "node_modules/@types"
+  ],
   "outDir": "build",
-  "include": ["src", "types"]
+  "include": [
+    "src",
+    "types"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }
