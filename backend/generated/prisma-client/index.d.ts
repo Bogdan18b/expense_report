@@ -213,7 +213,13 @@ export type UserOrderByInput =
   | "name_ASC"
   | "name_DESC"
   | "email_ASC"
-  | "email_DESC";
+  | "email_DESC"
+  | "password_ASC"
+  | "password_DESC"
+  | "resetToken_ASC"
+  | "resetToken_DESC"
+  | "resetTokenExpiry_ASC"
+  | "resetTokenExpiry_DESC";
 
 export type MutationType = "CREATED" | "UPDATED" | "DELETED";
 
@@ -371,6 +377,7 @@ export interface IncomeWhereInput {
 
 export type UserWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
+  email?: Maybe<String>;
 }>;
 
 export interface UserWhereInput {
@@ -416,6 +423,42 @@ export interface UserWhereInput {
   email_not_starts_with?: Maybe<String>;
   email_ends_with?: Maybe<String>;
   email_not_ends_with?: Maybe<String>;
+  password?: Maybe<String>;
+  password_not?: Maybe<String>;
+  password_in?: Maybe<String[] | String>;
+  password_not_in?: Maybe<String[] | String>;
+  password_lt?: Maybe<String>;
+  password_lte?: Maybe<String>;
+  password_gt?: Maybe<String>;
+  password_gte?: Maybe<String>;
+  password_contains?: Maybe<String>;
+  password_not_contains?: Maybe<String>;
+  password_starts_with?: Maybe<String>;
+  password_not_starts_with?: Maybe<String>;
+  password_ends_with?: Maybe<String>;
+  password_not_ends_with?: Maybe<String>;
+  resetToken?: Maybe<String>;
+  resetToken_not?: Maybe<String>;
+  resetToken_in?: Maybe<String[] | String>;
+  resetToken_not_in?: Maybe<String[] | String>;
+  resetToken_lt?: Maybe<String>;
+  resetToken_lte?: Maybe<String>;
+  resetToken_gt?: Maybe<String>;
+  resetToken_gte?: Maybe<String>;
+  resetToken_contains?: Maybe<String>;
+  resetToken_not_contains?: Maybe<String>;
+  resetToken_starts_with?: Maybe<String>;
+  resetToken_not_starts_with?: Maybe<String>;
+  resetToken_ends_with?: Maybe<String>;
+  resetToken_not_ends_with?: Maybe<String>;
+  resetTokenExpiry?: Maybe<Float>;
+  resetTokenExpiry_not?: Maybe<Float>;
+  resetTokenExpiry_in?: Maybe<Float[] | Float>;
+  resetTokenExpiry_not_in?: Maybe<Float[] | Float>;
+  resetTokenExpiry_lt?: Maybe<Float>;
+  resetTokenExpiry_lte?: Maybe<Float>;
+  resetTokenExpiry_gt?: Maybe<Float>;
+  resetTokenExpiry_gte?: Maybe<Float>;
   expenses_every?: Maybe<ExpenseWhereInput>;
   expenses_some?: Maybe<ExpenseWhereInput>;
   expenses_none?: Maybe<ExpenseWhereInput>;
@@ -469,6 +512,9 @@ export interface UserCreateInput {
   id?: Maybe<ID_Input>;
   name: String;
   email: String;
+  password: String;
+  resetToken?: Maybe<String>;
+  resetTokenExpiry?: Maybe<Float>;
   expenses?: Maybe<ExpenseCreateManyInput>;
   incomes?: Maybe<IncomeCreateManyInput>;
 }
@@ -486,6 +532,9 @@ export interface IncomeCreateManyInput {
 export interface UserUpdateInput {
   name?: Maybe<String>;
   email?: Maybe<String>;
+  password?: Maybe<String>;
+  resetToken?: Maybe<String>;
+  resetTokenExpiry?: Maybe<Float>;
   expenses?: Maybe<ExpenseUpdateManyInput>;
   incomes?: Maybe<IncomeUpdateManyInput>;
 }
@@ -735,6 +784,9 @@ export interface IncomeUpdateManyDataInput {
 export interface UserUpdateManyMutationInput {
   name?: Maybe<String>;
   email?: Maybe<String>;
+  password?: Maybe<String>;
+  resetToken?: Maybe<String>;
+  resetTokenExpiry?: Maybe<Float>;
 }
 
 export interface ExpenseSubscriptionWhereInput {
@@ -989,12 +1041,18 @@ export interface User {
   id: ID_Output;
   name: String;
   email: String;
+  password: String;
+  resetToken?: String;
+  resetTokenExpiry?: Float;
 }
 
 export interface UserPromise extends Promise<User>, Fragmentable {
   id: () => Promise<ID_Output>;
   name: () => Promise<String>;
   email: () => Promise<String>;
+  password: () => Promise<String>;
+  resetToken: () => Promise<String>;
+  resetTokenExpiry: () => Promise<Float>;
   expenses: <T = FragmentableArray<Expense>>(args?: {
     where?: ExpenseWhereInput;
     orderBy?: ExpenseOrderByInput;
@@ -1021,6 +1079,9 @@ export interface UserSubscription
   id: () => Promise<AsyncIterator<ID_Output>>;
   name: () => Promise<AsyncIterator<String>>;
   email: () => Promise<AsyncIterator<String>>;
+  password: () => Promise<AsyncIterator<String>>;
+  resetToken: () => Promise<AsyncIterator<String>>;
+  resetTokenExpiry: () => Promise<AsyncIterator<Float>>;
   expenses: <T = Promise<AsyncIterator<ExpenseSubscription>>>(args?: {
     where?: ExpenseWhereInput;
     orderBy?: ExpenseOrderByInput;
@@ -1047,6 +1108,9 @@ export interface UserNullablePromise
   id: () => Promise<ID_Output>;
   name: () => Promise<String>;
   email: () => Promise<String>;
+  password: () => Promise<String>;
+  resetToken: () => Promise<String>;
+  resetTokenExpiry: () => Promise<Float>;
   expenses: <T = FragmentableArray<Expense>>(args?: {
     where?: ExpenseWhereInput;
     orderBy?: ExpenseOrderByInput;
@@ -1278,6 +1342,9 @@ export interface UserPreviousValues {
   id: ID_Output;
   name: String;
   email: String;
+  password: String;
+  resetToken?: String;
+  resetTokenExpiry?: Float;
 }
 
 export interface UserPreviousValuesPromise
@@ -1286,6 +1353,9 @@ export interface UserPreviousValuesPromise
   id: () => Promise<ID_Output>;
   name: () => Promise<String>;
   email: () => Promise<String>;
+  password: () => Promise<String>;
+  resetToken: () => Promise<String>;
+  resetTokenExpiry: () => Promise<Float>;
 }
 
 export interface UserPreviousValuesSubscription
@@ -1294,6 +1364,9 @@ export interface UserPreviousValuesSubscription
   id: () => Promise<AsyncIterator<ID_Output>>;
   name: () => Promise<AsyncIterator<String>>;
   email: () => Promise<AsyncIterator<String>>;
+  password: () => Promise<AsyncIterator<String>>;
+  resetToken: () => Promise<AsyncIterator<String>>;
+  resetTokenExpiry: () => Promise<AsyncIterator<Float>>;
 }
 
 /*
