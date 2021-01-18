@@ -1,9 +1,12 @@
 
 const Query = {
-  async expenses(parent, args, ctx, info) {
-    const expenses = await ctx.db.query.expenses();
-    return expenses;
-  }
+  currentUser(parent, args, ctx, info) {
+    console.log('uuu', ctx.request.userId)
+    if (!ctx.request.userId) {
+      return null;
+    }
+    return ctx.db.query.user({where: {id: ctx.request.userId}}, info);
+  },
 };
 
 module.exports = Query;

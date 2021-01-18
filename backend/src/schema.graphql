@@ -1,6 +1,7 @@
 # import * from '../generated/prisma-client/schema.graphql';
 
 type Query {
+  currentUser: User,
   expenses: [Expense]
 }
 
