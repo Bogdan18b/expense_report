@@ -9,6 +9,7 @@ import {endpoint} from '../config'
      ssrMode: typeof window === "undefined", // set to true for SSR
      link: new HttpLink({
       uri: process.env.NODE_ENV === 'development' ? endpoint : endpoint,
+      credentials: 'include',
      }),
      cache: new InMemoryCache(),
    });
