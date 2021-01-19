@@ -1,9 +1,14 @@
 import styled from "styled-components";
-import gql from "graphql-tag";
 import SignUp from "../components/SignUp";
+import SignIn from "../components/SignIn";
 
 const Home: React.FC = () => {
-  return <SignUp />;
+  return (
+    <>
+      <SignUp />
+      <SignIn />
+    </>
+  );
 };
 
 export default Home;
