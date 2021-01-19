@@ -1,9 +1,13 @@
-import {useState} from 'react';
+import { useState } from "react";
 import gql from "graphql-tag";
-import {useMutation} from '@apollo/react-hooks';
+import { useMutation } from "@apollo/react-hooks";
 
 const SIGN_UP_MUTATION = gql`
-  mutation SIGN_UP_MUTATION($email: String!, $name: String!, $password: String!) {
+  mutation SIGN_UP_MUTATION(
+    $email: String!
+    $name: String!
+    $password: String!
+  ) {
     signUp(email: $email, name: $name, password: $password) {
       id
       email
@@ -13,24 +17,23 @@ const SIGN_UP_MUTATION = gql`
 `;
 
 const SignUp: React.FC = () => {
-  const [name, setName] = useState('')
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [signUp, {data}] = useMutation(SIGN_UP_MUTATION)
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [signUp] = useMutation(SIGN_UP_MUTATION);
 
-  const updateName = e => setName(e.target.value)
-  const updateEmail = e => setEmail(e.target.value)
-  const updatePassword = e => setPassword(e.target.value)
-  const handleSubmit = e => {
+  const updateName = (e) => setName(e.target.value);
+  const updateEmail = (e) => setEmail(e.target.value);
+  const updatePassword = (e) => setPassword(e.target.value);
+  const handleSubmit = (e) => {
     e.preventDefault();
+    signUp({ variables: { name, email, password } });
+    setName("");
+    setEmail("");
+    setPassword("");
+  };
 
-    console.log({name, email, password})
-    signUp({variables: {name, email, password}})
-    console.log({data})
-
-  }
-
-  const isSubmitDisabled = [name, email, password].includes('');
+  const isSubmitDisabled = [name, email, password].includes("");
 
   return (
     <form>
@@ -38,17 +41,33 @@ const SignUp: React.FC = () => {
         <h2>Sign Up</h2>
         <label htmlFor="name">
           Name
-          <input type="text" name="name" value={name} onChange={updateName}/>
+          <input type="text" name="name" value={name} onChange={updateName} />
         </label>
         <label htmlFor="email">
           Email
-          <input type="text" name="email" value={email} onChange={updateEmail}/>
+          <input
+            type="email"
+            name="email"
+            value={email}
+            onChange={updateEmail}
+          />
         </label>
         <label htmlFor="password">
           Password
-          <input type="password" name="password" value={password} onChange={updatePassword}/>
+          <input
+            type="password"
+            name="password"
+            value={password}
+            onChange={updatePassword}
+          />
         </label>
-        <button type="submit" disabled={isSubmitDisabled} onClick={handleSubmit}>Sign Up</button>
+        <button
+          type="submit"
+          disabled={isSubmitDisabled}
+          onClick={handleSubmit}
+        >
+          Sign Up
+        </button>
       </fieldset>
     </form>
   );
