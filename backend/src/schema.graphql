@@ -7,6 +7,7 @@ type Query {
 
 type Mutation {
   signUp(email: String!, password: String!, name: String!): User!,
+  signIn(email: String!, password: String!): User!,
   createExpense(amount: Float, category: String, comments: String): Expense!,
   createIncome(amount: Float, category: String, comments: String): Income!,
 }
