@@ -1,10 +1,15 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import gql from "graphql-tag";
 import { useMutation, useQuery } from "@apollo/react-hooks";
 import { useRouter } from "next/router";
 import useForm from "../lib/useForm";
 import { UserContext } from "./User";
 import Table from "./Table";
+import { getTotal } from "../lib/utils";
+
+type Props = {
+  setIncome: (total: number) => number;
+};
 
 const CREATE_INCOME_MUTATION = gql`
   mutation CREATE_INCOME_MUTATION(
@@ -13,7 +18,12 @@ const CREATE_INCOME_MUTATION = gql`
     $comments: String
     $userId: String!
   ) {
-    createIncome(amount: $amount, category: $category, comments: $comments, userId: $userId) {
+    createIncome(
+      amount: $amount
+      category: $category
+      comments: $comments
+      userId: $userId
+    ) {
       id
       amount
       category
@@ -38,14 +48,23 @@ const GET_INCOMES = gql`
   }
 `;
 
-const Income: React.FC = () => {
+const Income: React.FC<Props> = ({ setIncome }) => {
   const { inputs, handleChange, reset } = useForm();
-  const {id: userId} = useContext(UserContext);
+  const { id: userId } = useContext(UserContext);
   const { amount, category, comments } = inputs;
   const [createIncome] = useMutation(CREATE_INCOME_MUTATION);
   const { data, loading, error, refetch } = useQuery(GET_INCOMES, {
     variables: { userId },
   });
+
+  const incomes = data?.incomes?.edges;
+  useEffect(() => {
+    if (incomes) {
+      const totalIncome = getTotal(incomes);
+      setIncome(totalIncome);
+    }
+  }, [incomes]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     await createIncome({ variables: { amount, category, comments, userId } });
@@ -61,46 +80,46 @@ const Income: React.FC = () => {
 
   return (
     <>
-    <form>
-      <fieldset>
-        <h2>Add Income</h2>
-        <label htmlFor="amount">
-          Amount
-          <input
-            type="number"
-            name="amount"
-            value={amount}
-            onChange={handleChange}
-          />
-        </label>
-        <label htmlFor="category">
-          Category
-          <input
-            type="text"
-            name="category"
-            value={category}
-            onChange={handleChange}
-          />
-        </label>
-        <label htmlFor="comments">
-          Comments
-          <input
-            type="text"
-            name="comments"
-            value={comments}
-            onChange={handleChange}
-          />
-        </label>
-        <button
-          type="submit"
-          disabled={isSubmitDisabled}
-          onClick={handleSubmit}
-        >
-          Add income
-        </button>
-      </fieldset>
-    </form>
-    <Table edges={data?.incomes?.edges}/>
+      <form>
+        <fieldset>
+          <h2>Add Income</h2>
+          <label htmlFor="amount">
+            Amount
+            <input
+              type="number"
+              name="amount"
+              value={amount}
+              onChange={handleChange}
+            />
+          </label>
+          <label htmlFor="category">
+            Category
+            <input
+              type="text"
+              name="category"
+              value={category}
+              onChange={handleChange}
+            />
+          </label>
+          <label htmlFor="comments">
+            Comments
+            <input
+              type="text"
+              name="comments"
+              value={comments}
+              onChange={handleChange}
+            />
+          </label>
+          <button
+            type="submit"
+            disabled={isSubmitDisabled}
+            onClick={handleSubmit}
+          >
+            Add income
+          </button>
+        </fieldset>
+      </form>
+      <Table edges={incomes} />
     </>
   );
 };

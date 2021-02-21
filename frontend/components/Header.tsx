@@ -2,7 +2,7 @@ import { useContext } from "react";
 import SignOut from "./SignOut";
 import { UserContext } from "./User";
 
-const Header = () => {
+const Header: React.FC = () => {
   const { name } = useContext(UserContext);
   return (
     <>

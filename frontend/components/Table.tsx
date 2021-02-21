@@ -1,16 +1,17 @@
 import { Fragment } from "react";
 
-type Props = {
-  edges: {
-    node: {
-      id: string;
-      amount: number;
-      category: string;
-      comments?: string;
-    };
-  }[];
+export type Node = {
+  node: {
+    id: string;
+    amount: number;
+    category: string;
+    comments?: string;
+  };
 };
 
+type Props = {
+  edges: Node[];
+};
 
 const Table: React.FC<Props> = ({ edges = [] }) => (
   <ul>

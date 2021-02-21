@@ -1,10 +1,15 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import gql from "graphql-tag";
 import { useMutation, useQuery } from "@apollo/react-hooks";
 import { useRouter } from "next/router";
 import useForm from "../lib/useForm";
 import { UserContext } from "./User";
 import Table from "./Table";
+import { getTotal } from "../lib/utils";
+
+type Props = {
+  setExpenses: (total: number) => number;
+};
 
 const CREATE_EXPENSE_MUTATION = gql`
   mutation CREATE_EXPENSE_MUTATION(
@@ -28,7 +33,7 @@ const CREATE_EXPENSE_MUTATION = gql`
   }
 `;
 // TODO create fragments
-const GET_EXPENSES = gql` 
+const GET_EXPENSES = gql`
   query getExpenses($userId: String!) {
     expenses(userId: $userId) {
       edges {
@@ -43,7 +48,7 @@ const GET_EXPENSES = gql`
   }
 `;
 
-const Expense: React.FC = () => {
+const Expense: React.FC<Props> = ({ setExpenses }) => {
   const { inputs, handleChange, reset } = useForm();
   const { amount, category, comments } = inputs;
   const { id: userId } = useContext(UserContext);
@@ -51,6 +56,13 @@ const Expense: React.FC = () => {
   const { data, loading, error, refetch } = useQuery(GET_EXPENSES, {
     variables: { userId },
   });
+  const expenses = data?.expenses?.edges;
+  useEffect(() => {
+    if (expenses) {
+      const totalExpenses = getTotal(expenses);
+      setExpenses(totalExpenses);
+    }
+  }, [expenses]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -106,7 +118,7 @@ const Expense: React.FC = () => {
           </button>
         </fieldset>
       </form>
-      <Table edges={data?.expenses?.edges} />
+      <Table edges={expenses} />
     </>
   );
 };
