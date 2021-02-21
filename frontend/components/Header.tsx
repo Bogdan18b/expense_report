@@ -1,9 +1,15 @@
-import {useContext} from 'react';
-import {UserContext} from './User';
+import { useContext } from "react";
+import SignOut from "./SignOut";
+import { UserContext } from "./User";
 
 const Header = () => {
-  const {currentUser} = useContext(UserContext)
-  return <h1>Hello {currentUser.name}</h1>
-}
+  const { name } = useContext(UserContext);
+  return (
+    <>
+      <h1>Hello {name}</h1>
+      {name && <SignOut />}
+    </>
+  );
+};
 
 export default Header;
