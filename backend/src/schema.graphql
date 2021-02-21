@@ -5,8 +5,8 @@ type SuccessMessage {
 
 type Query {
   currentUser: User,
-  expenses(userId: String!): [Expense]
-  incomes(userId: String!): [Income]
+  expenses(userId: String!): ExpenseConnection
+  incomes(userId: String!): IncomeConnection
 }
 
 type Mutation {

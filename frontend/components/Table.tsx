@@ -1,22 +1,24 @@
 import { Fragment } from "react";
 
-type Data = {
-  id: string;
-  amount: number;
-  category: string;
-  comments?: string;
+type Props = {
+  edges: {
+    node: {
+      id: string;
+      amount: number;
+      category: string;
+      comments?: string;
+    };
+  }[];
 };
 
-type Props = {
-  data: Data[];
-};
-const Table: React.FC<Props> = ({ data = [] }) => (
+
+const Table: React.FC<Props> = ({ edges = [] }) => (
   <ul>
-    {data.map(({ id, amount, category, comments }) => (
-      <Fragment key={id}>
-        <li>{amount}</li>
-        <li>{category}</li>
-        {comments && <li>{comments}</li>}
+    {edges.map(({ node }) => (
+      <Fragment key={node.id}>
+        <li>{node.amount}</li>
+        <li>{node.category}</li>
+        {node.comments && <li>{node.comments}</li>}
       </Fragment>
     ))}
   </ul>

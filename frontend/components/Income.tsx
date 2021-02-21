@@ -26,10 +26,14 @@ const CREATE_INCOME_MUTATION = gql`
 const GET_INCOMES = gql`
   query getIncomes($userId: String!) {
     incomes(userId: $userId) {
-      id
-      amount
-      category
-      comments
+      edges {
+        node {
+          id
+          amount
+          category
+          comments
+        }
+      }
     }
   }
 `;
@@ -39,7 +43,7 @@ const Income: React.FC = () => {
   const {id: userId} = useContext(UserContext);
   const { amount, category, comments } = inputs;
   const [createIncome] = useMutation(CREATE_INCOME_MUTATION);
-  const { data, loading, error } = useQuery(GET_INCOMES, {
+  const { data, loading, error, refetch } = useQuery(GET_INCOMES, {
     variables: { userId },
   });
   const handleSubmit = async (e) => {
@@ -50,6 +54,7 @@ const Income: React.FC = () => {
       //todo
     }
     reset();
+    refetch();
   };
 
   const isSubmitDisabled = [amount, category].includes("");
@@ -95,7 +100,7 @@ const Income: React.FC = () => {
         </button>
       </fieldset>
     </form>
-    <Table data={data?.incomes}/>
+    <Table edges={data?.incomes?.edges}/>
     </>
   );
 };

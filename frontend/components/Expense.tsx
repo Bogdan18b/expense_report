@@ -27,14 +27,18 @@ const CREATE_EXPENSE_MUTATION = gql`
     }
   }
 `;
-
-const GET_EXPENSES = gql`
+// TODO create fragments
+const GET_EXPENSES = gql` 
   query getExpenses($userId: String!) {
     expenses(userId: $userId) {
-      id
-      amount
-      category
-      comments
+      edges {
+        node {
+          id
+          amount
+          category
+          comments
+        }
+      }
     }
   }
 `;
@@ -44,7 +48,7 @@ const Expense: React.FC = () => {
   const { amount, category, comments } = inputs;
   const { id: userId } = useContext(UserContext);
   const [createExpense] = useMutation(CREATE_EXPENSE_MUTATION);
-  const { data, loading, error } = useQuery(GET_EXPENSES, {
+  const { data, loading, error, refetch } = useQuery(GET_EXPENSES, {
     variables: { userId },
   });
 
@@ -56,52 +60,53 @@ const Expense: React.FC = () => {
       //todo
     }
     reset();
+    refetch();
   };
 
   const isSubmitDisabled = [amount, category].includes("");
 
   return (
     <>
-    <form>
-      <fieldset>
-        <h2>Add expense</h2>
-        <label htmlFor="amount">
-          Amount
-          <input
-            type="number"
-            name="amount"
-            value={amount}
-            onChange={handleChange}
-          />
-        </label>
-        <label htmlFor="category">
-          Category
-          <input
-            type="text"
-            name="category"
-            value={category}
-            onChange={handleChange}
-          />
-        </label>
-        <label htmlFor="comments">
-          Comments
-          <input
-            type="text"
-            name="comments"
-            value={comments}
-            onChange={handleChange}
-          />
-        </label>
-        <button
-          type="submit"
-          disabled={isSubmitDisabled}
-          onClick={handleSubmit}
-        >
-          Add expense
-        </button>
-      </fieldset>
-    </form>
-    <Table data={data?.expenses}/>
+      <form>
+        <fieldset>
+          <h2>Add expense</h2>
+          <label htmlFor="amount">
+            Amount
+            <input
+              type="number"
+              name="amount"
+              value={amount}
+              onChange={handleChange}
+            />
+          </label>
+          <label htmlFor="category">
+            Category
+            <input
+              type="text"
+              name="category"
+              value={category}
+              onChange={handleChange}
+            />
+          </label>
+          <label htmlFor="comments">
+            Comments
+            <input
+              type="text"
+              name="comments"
+              value={comments}
+              onChange={handleChange}
+            />
+          </label>
+          <button
+            type="submit"
+            disabled={isSubmitDisabled}
+            onClick={handleSubmit}
+          >
+            Add expense
+          </button>
+        </fieldset>
+      </form>
+      <Table edges={data?.expenses?.edges} />
     </>
   );
 };
