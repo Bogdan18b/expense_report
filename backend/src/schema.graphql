@@ -1,13 +1,28 @@
 # import * from '../generated/prisma-client/schema.graphql';
+type SuccessMessage {
+  message: String!
+}
 
 type Query {
   currentUser: User,
-  expenses: [Expense]
+  expenses(userId: String!): [Expense]
+  incomes(userId: String!): [Income]
 }
 
 type Mutation {
   signUp(email: String!, password: String!, name: String!): User!,
   signIn(email: String!, password: String!): User!,
-  createExpense(amount: Float, category: String, comments: String): Expense!,
-  createIncome(amount: Float, category: String, comments: String): Income!,
+  signOut: SuccessMessage,
+  requestPasswordReset(email: String!): SuccessMessage
+  resetPassword(resetToken: String!, password: String!): User!,
+  createExpense(amount: Float!, category: String!, comments: String, userId: String!): Expense!,
+  createIncome(amount: Float!, category: String!, comments: String, userId: String!): Income!,
+}
+
+type User {
+  id: ID!
+  name: String!
+  email: String!
+  incomes: [Income]
+  expenses: [Expense]
 }
