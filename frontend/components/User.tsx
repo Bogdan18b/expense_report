@@ -3,7 +3,7 @@ import gql from "graphql-tag";
 import { useQuery } from "@apollo/react-hooks";
 
 interface User {
-  id: string,
+  id: string;
   name: string;
   email?: string;
 }
@@ -16,22 +16,12 @@ export const CURRENT_USER_QUERY = gql`
       id
       email
       name
-      expenses {
-        amount
-        category
-        comments
-      }
-      incomes {
-        amount
-        category
-        comments
-      }
     }
   }
 `;
 
 const User: React.FC = (props) => {
-  const [currentUser, setCurrentUser] = useState<User>({ id: "", name: ""});
+  const [currentUser, setCurrentUser] = useState<User>({ id: "", name: "" });
   const { data, loading, error } = useQuery(CURRENT_USER_QUERY);
   // todo redirect home if there is no user
   useEffect(() => {

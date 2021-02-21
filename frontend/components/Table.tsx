@@ -1,26 +1,25 @@
 import { Fragment } from "react";
+import TableRow from "./TableRow";
+
+export type IncomeOrExpense = "income" | "expense";
 
 export type Node = {
-  node: {
-    id: string;
-    amount: number;
-    category: string;
-    comments?: string;
-  };
+  id: string;
+  amount: number;
+  category: string;
+  comments?: string;
+  type?: IncomeOrExpense;
 };
 
 type Props = {
-  edges: Node[];
+  edges: { node: Node }[];
+  type: IncomeOrExpense;
 };
 
-const Table: React.FC<Props> = ({ edges = [] }) => (
+const Table: React.FC<Props> = ({ edges = [], type }) => (
   <ul>
     {edges.map(({ node }) => (
-      <Fragment key={node.id}>
-        <li>{node.amount}</li>
-        <li>{node.category}</li>
-        {node.comments && <li>{node.comments}</li>}
-      </Fragment>
+      <TableRow key={node.id} {...node} type={type} />
     ))}
   </ul>
 );

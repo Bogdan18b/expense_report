@@ -17,12 +17,14 @@ type Mutation {
   resetPassword(resetToken: String!, password: String!): User!,
   createExpense(amount: Float!, category: String!, comments: String, userId: String!): Expense!,
   createIncome(amount: Float!, category: String!, comments: String, userId: String!): Income!,
+  updateExpense(id: String!, amount: Float!, category: String!, comments: String): Expense!,
+  updateIncome(id: String!, amount: Float!, category: String!, comments: String): Income!,
+  deleteExpense(id: String!): Expense,
+  deleteIncome(id: String!): Income,
 }
 
 type User {
   id: ID!
   name: String!
   email: String!
-  incomes: [Income]
-  expenses: [Expense]
 }

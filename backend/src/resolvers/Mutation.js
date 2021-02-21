@@ -102,7 +102,33 @@ const Mutation = {
       data: {...args}
     }, info);
     return income;
-  }
+  },
+  async updateIncome(parent, {id, amount, category, comments}, ctx, info) {
+    const income = await ctx.db.mutation.updateIncome({
+      where: {id},
+      data: {amount, category, comments}
+    }, info);
+    return income;
+  },
+  async updateExpense(parent, {id, amount, category, comments}, ctx, info) {
+    const income = await ctx.db.mutation.updateExpense({
+      where: {id},
+      data: {amount, category, comments}
+    }, info);
+    return income;
+  },
+  async deleteIncome(parent, {id}, ctx, info) {
+    const income = await ctx.db.mutation.deleteIncome({
+      where: {id},
+    }, info);
+    return income;
+  },
+  async deleteExpense(parent, {id}, ctx, info) {
+    const income = await ctx.db.mutation.deleteExpense({
+      where: {id},
+    }, info);
+    return income;
+  },
 };
 
 module.exports = Mutation;
