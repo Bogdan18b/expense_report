@@ -1,6 +1,7 @@
-import { useState } from "react";
 import gql from "graphql-tag";
 import { useMutation } from "@apollo/react-hooks";
+import { useRouter } from "next/router";
+import useForm from "../lib/useForm";
 
 const SIGN_UP_MUTATION = gql`
   mutation SIGN_UP_MUTATION(
@@ -17,20 +18,22 @@ const SIGN_UP_MUTATION = gql`
 `;
 
 const SignUp: React.FC = () => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [signUp] = useMutation(SIGN_UP_MUTATION);
+  const { inputs, handleChange, reset } = useForm();
+  const { name, email, password } = inputs;
+  const [signUp, { data, error }] = useMutation(SIGN_UP_MUTATION);
+  const { push } = useRouter();
 
-  const updateName = (e) => setName(e.target.value);
-  const updateEmail = (e) => setEmail(e.target.value);
-  const updatePassword = (e) => setPassword(e.target.value);
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    signUp({ variables: { name, email, password } });
-    setName("");
-    setEmail("");
-    setPassword("");
+    await signUp({ variables: { name, email, password } });
+    debugger;
+    if (data) {
+      push("/report");
+    }
+    if (error) {
+      //todo
+    }
+    reset();
   };
 
   const isSubmitDisabled = [name, email, password].includes("");
@@ -41,7 +44,7 @@ const SignUp: React.FC = () => {
         <h2>Sign Up</h2>
         <label htmlFor="name">
           Name
-          <input type="text" name="name" value={name} onChange={updateName} />
+          <input type="text" name="name" value={name} onChange={handleChange} />
         </label>
         <label htmlFor="email">
           Email
@@ -49,7 +52,7 @@ const SignUp: React.FC = () => {
             type="email"
             name="email"
             value={email}
-            onChange={updateEmail}
+            onChange={handleChange}
           />
         </label>
         <label htmlFor="password">
@@ -58,7 +61,7 @@ const SignUp: React.FC = () => {
             type="password"
             name="password"
             value={password}
-            onChange={updatePassword}
+            onChange={handleChange}
           />
         </label>
         <button

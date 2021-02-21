@@ -1,7 +1,7 @@
-import { useState } from "react";
 import gql from "graphql-tag";
 import { useMutation } from "@apollo/react-hooks";
-import { CURRENT_USER_QUERY } from "./User";
+import {useRouter} from "next/router";
+import useForm from "../lib/useForm";
 
 const SIGN_IN_MUTATION = gql`
   mutation SIGN_IN_MUTATION($email: String!, $password: String!) {
@@ -14,19 +14,21 @@ const SIGN_IN_MUTATION = gql`
 `;
 
 const SignIn: React.FC = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [signIn] = useMutation(SIGN_IN_MUTATION, {
-    refetchQueries: [{ query: CURRENT_USER_QUERY }],
-  });
+  const {inputs, handleChange, reset} = useForm()
+  const {email, password} = inputs; // add option to see password
+  const [signIn, {data, error}] = useMutation(SIGN_IN_MUTATION);
+  const {push} = useRouter();
 
-  const updateEmail = (e) => setEmail(e.target.value);
-  const updatePassword = (e) => setPassword(e.target.value);
   const handleSubmit = (e) => {
     e.preventDefault();
-    signIn({ variables: { email, password } });
-    setEmail("");
-    setPassword("");
+    signIn({ variables: { email, password } })
+    if (data) {
+      push('/report')
+    }
+    if (error) {
+      // todo
+    }
+    reset();
   };
 
   const isSubmitDisabled = [email, password].includes("");
@@ -41,7 +43,7 @@ const SignIn: React.FC = () => {
             type="email"
             name="email"
             value={email}
-            onChange={updateEmail}
+            onChange={handleChange}
           />
         </label>
         <label htmlFor="password">
@@ -50,7 +52,7 @@ const SignIn: React.FC = () => {
             type="password"
             name="password"
             value={password}
-            onChange={updatePassword}
+            onChange={handleChange}
           />
         </label>
         <button
