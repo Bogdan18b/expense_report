@@ -26,6 +26,8 @@ type Expense {
   amount: Float!
   category: String!
   comments: String
+  user: User
+  userId: ID
   createdAt: DateTime!
   updatedAt: DateTime!
 }
@@ -41,11 +43,21 @@ input ExpenseCreateInput {
   amount: Float!
   category: String!
   comments: String
+  user: UserCreateOneWithoutExpensesInput
+  userId: ID
 }
 
-input ExpenseCreateManyInput {
-  create: [ExpenseCreateInput!]
+input ExpenseCreateManyWithoutUserInput {
+  create: [ExpenseCreateWithoutUserInput!]
   connect: [ExpenseWhereUniqueInput!]
+}
+
+input ExpenseCreateWithoutUserInput {
+  id: ID
+  amount: Float!
+  category: String!
+  comments: String
+  userId: ID
 }
 
 type ExpenseEdge {
@@ -62,6 +74,8 @@ enum ExpenseOrderByInput {
   category_DESC
   comments_ASC
   comments_DESC
+  userId_ASC
+  userId_DESC
   createdAt_ASC
   createdAt_DESC
   updatedAt_ASC
@@ -73,6 +87,7 @@ type ExpensePreviousValues {
   amount: Float!
   category: String!
   comments: String
+  userId: ID
   createdAt: DateTime!
   updatedAt: DateTime!
 }
@@ -128,6 +143,20 @@ input ExpenseScalarWhereInput {
   comments_not_starts_with: String
   comments_ends_with: String
   comments_not_ends_with: String
+  userId: ID
+  userId_not: ID
+  userId_in: [ID!]
+  userId_not_in: [ID!]
+  userId_lt: ID
+  userId_lte: ID
+  userId_gt: ID
+  userId_gte: ID
+  userId_contains: ID
+  userId_not_contains: ID
+  userId_starts_with: ID
+  userId_not_starts_with: ID
+  userId_ends_with: ID
+  userId_not_ends_with: ID
   createdAt: DateTime
   createdAt_not: DateTime
   createdAt_in: [DateTime!]
@@ -167,40 +196,38 @@ input ExpenseSubscriptionWhereInput {
   NOT: [ExpenseSubscriptionWhereInput!]
 }
 
-input ExpenseUpdateDataInput {
-  amount: Float
-  category: String
-  comments: String
-}
-
 input ExpenseUpdateInput {
   amount: Float
   category: String
   comments: String
+  user: UserUpdateOneWithoutExpensesInput
+  userId: ID
 }
 
 input ExpenseUpdateManyDataInput {
   amount: Float
   category: String
   comments: String
-}
-
-input ExpenseUpdateManyInput {
-  create: [ExpenseCreateInput!]
-  update: [ExpenseUpdateWithWhereUniqueNestedInput!]
-  upsert: [ExpenseUpsertWithWhereUniqueNestedInput!]
-  delete: [ExpenseWhereUniqueInput!]
-  connect: [ExpenseWhereUniqueInput!]
-  set: [ExpenseWhereUniqueInput!]
-  disconnect: [ExpenseWhereUniqueInput!]
-  deleteMany: [ExpenseScalarWhereInput!]
-  updateMany: [ExpenseUpdateManyWithWhereNestedInput!]
+  userId: ID
 }
 
 input ExpenseUpdateManyMutationInput {
   amount: Float
   category: String
   comments: String
+  userId: ID
+}
+
+input ExpenseUpdateManyWithoutUserInput {
+  create: [ExpenseCreateWithoutUserInput!]
+  delete: [ExpenseWhereUniqueInput!]
+  connect: [ExpenseWhereUniqueInput!]
+  set: [ExpenseWhereUniqueInput!]
+  disconnect: [ExpenseWhereUniqueInput!]
+  update: [ExpenseUpdateWithWhereUniqueWithoutUserInput!]
+  upsert: [ExpenseUpsertWithWhereUniqueWithoutUserInput!]
+  deleteMany: [ExpenseScalarWhereInput!]
+  updateMany: [ExpenseUpdateManyWithWhereNestedInput!]
 }
 
 input ExpenseUpdateManyWithWhereNestedInput {
@@ -208,15 +235,22 @@ input ExpenseUpdateManyWithWhereNestedInput {
   data: ExpenseUpdateManyDataInput!
 }
 
-input ExpenseUpdateWithWhereUniqueNestedInput {
-  where: ExpenseWhereUniqueInput!
-  data: ExpenseUpdateDataInput!
+input ExpenseUpdateWithoutUserDataInput {
+  amount: Float
+  category: String
+  comments: String
+  userId: ID
 }
 
-input ExpenseUpsertWithWhereUniqueNestedInput {
+input ExpenseUpdateWithWhereUniqueWithoutUserInput {
   where: ExpenseWhereUniqueInput!
-  update: ExpenseUpdateDataInput!
-  create: ExpenseCreateInput!
+  data: ExpenseUpdateWithoutUserDataInput!
+}
+
+input ExpenseUpsertWithWhereUniqueWithoutUserInput {
+  where: ExpenseWhereUniqueInput!
+  update: ExpenseUpdateWithoutUserDataInput!
+  create: ExpenseCreateWithoutUserInput!
 }
 
 input ExpenseWhereInput {
@@ -270,6 +304,21 @@ input ExpenseWhereInput {
   comments_not_starts_with: String
   comments_ends_with: String
   comments_not_ends_with: String
+  user: UserWhereInput
+  userId: ID
+  userId_not: ID
+  userId_in: [ID!]
+  userId_not_in: [ID!]
+  userId_lt: ID
+  userId_lte: ID
+  userId_gt: ID
+  userId_gte: ID
+  userId_contains: ID
+  userId_not_contains: ID
+  userId_starts_with: ID
+  userId_not_starts_with: ID
+  userId_ends_with: ID
+  userId_not_ends_with: ID
   createdAt: DateTime
   createdAt_not: DateTime
   createdAt_in: [DateTime!]
@@ -300,6 +349,8 @@ type Income {
   amount: Float!
   category: String!
   comments: String
+  user: User
+  userId: ID
   createdAt: DateTime!
   updatedAt: DateTime!
 }
@@ -315,11 +366,21 @@ input IncomeCreateInput {
   amount: Float!
   category: String!
   comments: String
+  user: UserCreateOneWithoutIncomesInput
+  userId: ID
 }
 
-input IncomeCreateManyInput {
-  create: [IncomeCreateInput!]
+input IncomeCreateManyWithoutUserInput {
+  create: [IncomeCreateWithoutUserInput!]
   connect: [IncomeWhereUniqueInput!]
+}
+
+input IncomeCreateWithoutUserInput {
+  id: ID
+  amount: Float!
+  category: String!
+  comments: String
+  userId: ID
 }
 
 type IncomeEdge {
@@ -336,6 +397,8 @@ enum IncomeOrderByInput {
   category_DESC
   comments_ASC
   comments_DESC
+  userId_ASC
+  userId_DESC
   createdAt_ASC
   createdAt_DESC
   updatedAt_ASC
@@ -347,6 +410,7 @@ type IncomePreviousValues {
   amount: Float!
   category: String!
   comments: String
+  userId: ID
   createdAt: DateTime!
   updatedAt: DateTime!
 }
@@ -402,6 +466,20 @@ input IncomeScalarWhereInput {
   comments_not_starts_with: String
   comments_ends_with: String
   comments_not_ends_with: String
+  userId: ID
+  userId_not: ID
+  userId_in: [ID!]
+  userId_not_in: [ID!]
+  userId_lt: ID
+  userId_lte: ID
+  userId_gt: ID
+  userId_gte: ID
+  userId_contains: ID
+  userId_not_contains: ID
+  userId_starts_with: ID
+  userId_not_starts_with: ID
+  userId_ends_with: ID
+  userId_not_ends_with: ID
   createdAt: DateTime
   createdAt_not: DateTime
   createdAt_in: [DateTime!]
@@ -441,40 +519,38 @@ input IncomeSubscriptionWhereInput {
   NOT: [IncomeSubscriptionWhereInput!]
 }
 
-input IncomeUpdateDataInput {
-  amount: Float
-  category: String
-  comments: String
-}
-
 input IncomeUpdateInput {
   amount: Float
   category: String
   comments: String
+  user: UserUpdateOneWithoutIncomesInput
+  userId: ID
 }
 
 input IncomeUpdateManyDataInput {
   amount: Float
   category: String
   comments: String
-}
-
-input IncomeUpdateManyInput {
-  create: [IncomeCreateInput!]
-  update: [IncomeUpdateWithWhereUniqueNestedInput!]
-  upsert: [IncomeUpsertWithWhereUniqueNestedInput!]
-  delete: [IncomeWhereUniqueInput!]
-  connect: [IncomeWhereUniqueInput!]
-  set: [IncomeWhereUniqueInput!]
-  disconnect: [IncomeWhereUniqueInput!]
-  deleteMany: [IncomeScalarWhereInput!]
-  updateMany: [IncomeUpdateManyWithWhereNestedInput!]
+  userId: ID
 }
 
 input IncomeUpdateManyMutationInput {
   amount: Float
   category: String
   comments: String
+  userId: ID
+}
+
+input IncomeUpdateManyWithoutUserInput {
+  create: [IncomeCreateWithoutUserInput!]
+  delete: [IncomeWhereUniqueInput!]
+  connect: [IncomeWhereUniqueInput!]
+  set: [IncomeWhereUniqueInput!]
+  disconnect: [IncomeWhereUniqueInput!]
+  update: [IncomeUpdateWithWhereUniqueWithoutUserInput!]
+  upsert: [IncomeUpsertWithWhereUniqueWithoutUserInput!]
+  deleteMany: [IncomeScalarWhereInput!]
+  updateMany: [IncomeUpdateManyWithWhereNestedInput!]
 }
 
 input IncomeUpdateManyWithWhereNestedInput {
@@ -482,15 +558,22 @@ input IncomeUpdateManyWithWhereNestedInput {
   data: IncomeUpdateManyDataInput!
 }
 
-input IncomeUpdateWithWhereUniqueNestedInput {
-  where: IncomeWhereUniqueInput!
-  data: IncomeUpdateDataInput!
+input IncomeUpdateWithoutUserDataInput {
+  amount: Float
+  category: String
+  comments: String
+  userId: ID
 }
 
-input IncomeUpsertWithWhereUniqueNestedInput {
+input IncomeUpdateWithWhereUniqueWithoutUserInput {
   where: IncomeWhereUniqueInput!
-  update: IncomeUpdateDataInput!
-  create: IncomeCreateInput!
+  data: IncomeUpdateWithoutUserDataInput!
+}
+
+input IncomeUpsertWithWhereUniqueWithoutUserInput {
+  where: IncomeWhereUniqueInput!
+  update: IncomeUpdateWithoutUserDataInput!
+  create: IncomeCreateWithoutUserInput!
 }
 
 input IncomeWhereInput {
@@ -544,6 +627,21 @@ input IncomeWhereInput {
   comments_not_starts_with: String
   comments_ends_with: String
   comments_not_ends_with: String
+  user: UserWhereInput
+  userId: ID
+  userId_not: ID
+  userId_in: [ID!]
+  userId_not_in: [ID!]
+  userId_lt: ID
+  userId_lte: ID
+  userId_gt: ID
+  userId_gte: ID
+  userId_contains: ID
+  userId_not_contains: ID
+  userId_starts_with: ID
+  userId_not_starts_with: ID
+  userId_ends_with: ID
+  userId_not_ends_with: ID
   createdAt: DateTime
   createdAt_not: DateTime
   createdAt_in: [DateTime!]
@@ -652,8 +750,38 @@ input UserCreateInput {
   password: String!
   resetToken: String
   resetTokenExpiry: Float
-  expenses: ExpenseCreateManyInput
-  incomes: IncomeCreateManyInput
+  expenses: ExpenseCreateManyWithoutUserInput
+  incomes: IncomeCreateManyWithoutUserInput
+}
+
+input UserCreateOneWithoutExpensesInput {
+  create: UserCreateWithoutExpensesInput
+  connect: UserWhereUniqueInput
+}
+
+input UserCreateOneWithoutIncomesInput {
+  create: UserCreateWithoutIncomesInput
+  connect: UserWhereUniqueInput
+}
+
+input UserCreateWithoutExpensesInput {
+  id: ID
+  name: String!
+  email: String!
+  password: String!
+  resetToken: String
+  resetTokenExpiry: Float
+  incomes: IncomeCreateManyWithoutUserInput
+}
+
+input UserCreateWithoutIncomesInput {
+  id: ID
+  name: String!
+  email: String!
+  password: String!
+  resetToken: String
+  resetTokenExpiry: Float
+  expenses: ExpenseCreateManyWithoutUserInput
 }
 
 type UserEdge {
@@ -709,8 +837,8 @@ input UserUpdateInput {
   password: String
   resetToken: String
   resetTokenExpiry: Float
-  expenses: ExpenseUpdateManyInput
-  incomes: IncomeUpdateManyInput
+  expenses: ExpenseUpdateManyWithoutUserInput
+  incomes: IncomeUpdateManyWithoutUserInput
 }
 
 input UserUpdateManyMutationInput {
@@ -719,6 +847,52 @@ input UserUpdateManyMutationInput {
   password: String
   resetToken: String
   resetTokenExpiry: Float
+}
+
+input UserUpdateOneWithoutExpensesInput {
+  create: UserCreateWithoutExpensesInput
+  update: UserUpdateWithoutExpensesDataInput
+  upsert: UserUpsertWithoutExpensesInput
+  delete: Boolean
+  disconnect: Boolean
+  connect: UserWhereUniqueInput
+}
+
+input UserUpdateOneWithoutIncomesInput {
+  create: UserCreateWithoutIncomesInput
+  update: UserUpdateWithoutIncomesDataInput
+  upsert: UserUpsertWithoutIncomesInput
+  delete: Boolean
+  disconnect: Boolean
+  connect: UserWhereUniqueInput
+}
+
+input UserUpdateWithoutExpensesDataInput {
+  name: String
+  email: String
+  password: String
+  resetToken: String
+  resetTokenExpiry: Float
+  incomes: IncomeUpdateManyWithoutUserInput
+}
+
+input UserUpdateWithoutIncomesDataInput {
+  name: String
+  email: String
+  password: String
+  resetToken: String
+  resetTokenExpiry: Float
+  expenses: ExpenseUpdateManyWithoutUserInput
+}
+
+input UserUpsertWithoutExpensesInput {
+  update: UserUpdateWithoutExpensesDataInput!
+  create: UserCreateWithoutExpensesInput!
+}
+
+input UserUpsertWithoutIncomesInput {
+  update: UserUpdateWithoutIncomesDataInput!
+  create: UserCreateWithoutIncomesInput!
 }
 
 input UserWhereInput {
