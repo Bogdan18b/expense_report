@@ -118,7 +118,7 @@ const Expense: React.FC<Props> = ({ setExpenses }) => {
           </button>
         </fieldset>
       </form>
-      <Table edges={expenses} type="expense" />
+      <Table edges={expenses} refetch={refetch} type="expense" />
     </>
   );
 };

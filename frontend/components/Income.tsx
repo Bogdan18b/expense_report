@@ -119,7 +119,7 @@ const Income: React.FC<Props> = ({ setIncome }) => {
           </button>
         </fieldset>
       </form>
-      <Table edges={incomes} type='income'/>
+      <Table edges={incomes} type='income' refetch={refetch}/>
     </>
   );
 };

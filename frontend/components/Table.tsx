@@ -9,17 +9,19 @@ export type Node = {
   category: string;
   comments?: string;
   type?: IncomeOrExpense;
+  refetch?: () => any;
 };
 
 type Props = {
   edges: { node: Node }[];
   type: IncomeOrExpense;
+  refetch: () => any;
 };
 
-const Table: React.FC<Props> = ({ edges = [], type }) => (
+const Table: React.FC<Props> = ({ edges = [], type, refetch }) => (
   <ul>
     {edges.map(({ node }) => (
-      <TableRow key={node.id} {...node} type={type} />
+      <TableRow key={node.id} {...node} type={type} refetch={refetch} />
     ))}
   </ul>
 );

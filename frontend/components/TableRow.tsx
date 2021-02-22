@@ -62,7 +62,7 @@ const DELETE_INCOME_MUTATION = gql`
   }
 `;
 
-const TableRow: React.FC<Node> = ({ id, amount, category, comments, type }) => {
+const TableRow: React.FC<Node> = ({ id, amount, category, comments, type, refetch }) => {
   let { inputs, handleChange } = useForm({ amount, category, comments });
   const [disabled, setDisabled] = useState(true);
   const [showEditOptions, setShowEditOptions] = useState(false);
@@ -93,7 +93,7 @@ const TableRow: React.FC<Node> = ({ id, amount, category, comments, type }) => {
     type == "income"
       ? deleteIncome({ variables: { id, ...inputs } })
       : deleteExpense({ variables: { id, ...inputs } });
-      location.reload() // TODO refetch instead
+      refetch()
   };
   return (
     <div style={{ display: "block", marginBottom: "10px" }}>
