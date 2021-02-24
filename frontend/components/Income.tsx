@@ -1,10 +1,11 @@
 import { useContext, useEffect } from "react";
 import gql from "graphql-tag";
 import { useMutation, useQuery } from "@apollo/react-hooks";
-import { useRouter } from "next/router";
+import { Wrapper } from "./Expense";
 import useForm from "../lib/useForm";
 import { UserContext } from "./User";
 import Table from "./Table";
+import {Button} from './TableRow';
 import { getTotal } from "../lib/utils";
 
 type Props = {
@@ -42,6 +43,7 @@ const GET_INCOMES = gql`
           amount
           category
           comments
+          createdAt
         }
       }
     }
@@ -79,48 +81,47 @@ const Income: React.FC<Props> = ({ setIncome }) => {
   const isSubmitDisabled = [amount, category].includes("");
 
   return (
-    <>
+    <Wrapper>
+      <h4>Add Income</h4>
       <form>
-        <fieldset>
-          <h2>Add Income</h2>
-          <label htmlFor="amount">
-            Amount
-            <input
-              type="number"
-              name="amount"
-              value={amount}
-              onChange={handleChange}
-            />
-          </label>
-          <label htmlFor="category">
-            Category
-            <input
-              type="text"
-              name="category"
-              value={category}
-              onChange={handleChange}
-            />
-          </label>
-          <label htmlFor="comments">
-            Comments
-            <input
-              type="text"
-              name="comments"
-              value={comments}
-              onChange={handleChange}
-            />
-          </label>
-          <button
-            type="submit"
-            disabled={isSubmitDisabled}
-            onClick={handleSubmit}
-          >
-            Add income
-          </button>
-        </fieldset>
+        <label htmlFor="amount">
+          Amount
+          <input
+            type="number"
+            name="amount"
+            value={amount}
+            onChange={handleChange}
+          />
+        </label>
+        <label htmlFor="category">
+          Category
+          <input
+            type="text"
+            name="category"
+            value={category}
+            onChange={handleChange}
+          />
+        </label>
+        <label htmlFor="comments">
+          Comments
+          <input
+            type="text"
+            name="comments"
+            value={comments}
+            onChange={handleChange}
+          />
+        </label>
+        <Button
+          type="submit"
+          disabled={isSubmitDisabled}
+          onClick={handleSubmit}
+        >
+          Add income
+        </Button>
       </form>
-      <Table edges={incomes} type='income' refetch={refetch}/>
-    </>
+      <h4>All Income</h4>
+      <Table edges={incomes} type="income" refetch={refetch} />
+    </Wrapper>
   );
 };
 

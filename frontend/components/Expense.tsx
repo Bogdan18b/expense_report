@@ -1,15 +1,21 @@
 import { useContext, useEffect } from "react";
 import gql from "graphql-tag";
 import { useMutation, useQuery } from "@apollo/react-hooks";
-import { useRouter } from "next/router";
+import styled from "styled-components";
 import useForm from "../lib/useForm";
 import { UserContext } from "./User";
 import Table from "./Table";
 import { getTotal } from "../lib/utils";
-
+import {Button} from './TableRow';
 type Props = {
   setExpenses: (total: number) => number;
 };
+
+export const Wrapper = styled.section`
+  form {
+    display: flex;
+  }
+`;
 
 const CREATE_EXPENSE_MUTATION = gql`
   mutation CREATE_EXPENSE_MUTATION(
@@ -31,9 +37,9 @@ const CREATE_EXPENSE_MUTATION = gql`
       userId
     }
   }
-`;
-// TODO create fragments
-const GET_EXPENSES = gql`
+  `;
+  // TODO create fragments
+  const GET_EXPENSES = gql`
   query getExpenses($userId: String!) {
     expenses(userId: $userId) {
       edges {
@@ -42,6 +48,7 @@ const GET_EXPENSES = gql`
           amount
           category
           comments
+          createdAt
         }
       }
     }
@@ -78,48 +85,47 @@ const Expense: React.FC<Props> = ({ setExpenses }) => {
   const isSubmitDisabled = [amount, category].includes("");
 
   return (
-    <>
+    <Wrapper>
+      <h4>Add Expense</h4>
       <form>
-        <fieldset>
-          <h2>Add expense</h2>
-          <label htmlFor="amount">
-            Amount
-            <input
-              type="number"
-              name="amount"
-              value={amount}
-              onChange={handleChange}
-            />
-          </label>
-          <label htmlFor="category">
-            Category
-            <input
-              type="text"
-              name="category"
-              value={category}
-              onChange={handleChange}
-            />
-          </label>
-          <label htmlFor="comments">
-            Comments
-            <input
-              type="text"
-              name="comments"
-              value={comments}
-              onChange={handleChange}
-            />
-          </label>
-          <button
-            type="submit"
-            disabled={isSubmitDisabled}
-            onClick={handleSubmit}
-          >
-            Add expense
-          </button>
-        </fieldset>
+        <label htmlFor="amount">
+          Amount
+          <input
+            type="number"
+            name="amount"
+            value={amount}
+            onChange={handleChange}
+          />
+        </label>
+        <label htmlFor="category">
+          Category
+          <input
+            type="text"
+            name="category"
+            value={category}
+            onChange={handleChange}
+          />
+        </label>
+        <label htmlFor="comments">
+          Comments
+          <input
+            type="text"
+            name="comments"
+            value={comments}
+            onChange={handleChange}
+          />
+        </label>
+        <Button
+          type="submit"
+          disabled={isSubmitDisabled}
+          onClick={handleSubmit}
+        >
+          Add expense
+        </Button>
       </form>
+      <h4>All Expenses</h4>
       <Table edges={expenses} refetch={refetch} type="expense" />
-    </>
+    </Wrapper>
   );
 };
 

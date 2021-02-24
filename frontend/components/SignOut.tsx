@@ -1,6 +1,8 @@
 import { useMutation } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import { useRouter } from "next/router";
+import {Button} from './TableRow';
+
 const SIGN_OUT_MUTATION = gql`
   mutation {
     signOut {
@@ -16,7 +18,7 @@ const SignOut: React.FC = () => {
     push("/");
   };
   const { push } = useRouter();
-  return <button onClick={handleClick}>Sign Out</button>;
+  return <Button onClick={handleClick}>Sign Out</Button>;
 };
 
 export default SignOut;

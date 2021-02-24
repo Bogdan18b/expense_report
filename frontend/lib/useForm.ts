@@ -6,6 +6,7 @@ type InitialState = {
   amount?: number | string,
   category?: string,
   comments?: string,
+  createdAt?: string
 }
 
 const INITIAL_STATE = {

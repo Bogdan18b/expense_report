@@ -20,7 +20,6 @@ const App: React.FC<AppProps> = ({ Component, pageProps }) => {
         <title>Expense Report</title>
       </Head>
       <GlobalStyles />
-      <h1>Expense report</h1>
       <Component {...pageProps} />
     </ApolloProvider>
   );
