@@ -6,7 +6,7 @@ import { createGlobalStyle } from "styled-components";
 const GlobalStyles = createGlobalStyle`
   :root {
    font-size: 16px;
-   --red: red;
+   --blue: blue;
   } 
 `;
 
@@ -20,7 +20,6 @@ const App: React.FC<AppProps> = ({ Component, pageProps }) => {
         <title>Expense Report</title>
       </Head>
       <GlobalStyles />
-      <h1>Expense report</h1>
       <Component {...pageProps} />
     </ApolloProvider>
   );

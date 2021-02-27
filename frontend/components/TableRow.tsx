@@ -1,8 +1,23 @@
 import gql from "graphql-tag";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import useForm from "../lib/useForm";
 import { useMutation } from "@apollo/react-hooks";
 import { Node } from "./Table";
+import styled from "styled-components";
+
+export const Button = styled.button`
+  background-color: var(--blue);
+  border: none;
+  border-radius: 50vw;
+  color: white;
+  padding: 4px 8px;
+  margin: 2px;
+  max-width: 200px;
+  height: 24px;
+  &:disabled {
+    background-color: lightgray;
+  }
+`;
 
 const UPDATE_INCOME_MUTATION = gql`
   mutation UPDATE_INCOME_MUTATION(
@@ -62,8 +77,22 @@ const DELETE_INCOME_MUTATION = gql`
   }
 `;
 
-const TableRow: React.FC<Node> = ({ id, amount, category, comments, type, refetch }) => {
-  let { inputs, handleChange } = useForm({ amount, category, comments });
+const TableRow: React.FC<Node> = ({
+  id,
+  amount,
+  category,
+  comments,
+  createdAt,
+  type,
+  refetch,
+}) => {
+  const inputRef = useRef(null);
+  let { inputs, handleChange } = useForm({
+    amount,
+    category,
+    comments,
+    createdAt,
+  });
   const [disabled, setDisabled] = useState(true);
   const [showEditOptions, setShowEditOptions] = useState(false);
   const [updateExpense] = useMutation(UPDATE_EXPENSE_MUTATION);
@@ -74,6 +103,10 @@ const TableRow: React.FC<Node> = ({ id, amount, category, comments, type, refetc
     setDisabled(false);
     setShowEditOptions(true);
   };
+
+  useEffect(() => {
+    inputRef.current.focus();
+  }, [disabled]);
 
   // TODO implement undo changes
   const handleCancel = () => {
@@ -93,22 +126,21 @@ const TableRow: React.FC<Node> = ({ id, amount, category, comments, type, refetc
     type == "income"
       ? deleteIncome({ variables: { id, ...inputs } })
       : deleteExpense({ variables: { id, ...inputs } });
-      refetch()
+    refetch();
   };
   return (
-    <div style={{ display: "block", marginBottom: "10px" }}>
-      <label htmlFor="amount">
-        Amount
+    <tr>
+      <td>
         <input
           type="number"
           name="amount"
           value={inputs.amount}
           onChange={handleChange}
           disabled={disabled}
+          ref={inputRef}
         />
-      </label>
-      <label htmlFor="category">
-        Category
+      </td>
+      <td>
         <input
           type="text"
           name="category"
@@ -116,9 +148,8 @@ const TableRow: React.FC<Node> = ({ id, amount, category, comments, type, refetc
           onChange={handleChange}
           disabled={disabled}
         />
-      </label>
-      <label htmlFor="comments">
-        Comments
+      </td>
+      <td>
         <input
           type="text"
           name="comments"
@@ -126,27 +157,38 @@ const TableRow: React.FC<Node> = ({ id, amount, category, comments, type, refetc
           onChange={handleChange}
           disabled={disabled}
         />
-      </label>
-      {showEditOptions ? (
-        <>
-          <button type="button" onClick={handleUpdate}>
-            Update
-          </button>
-          <button type="button" onClick={handleCancel}>
-            Cancel
-          </button>
-        </>
-      ) : (
-        <>
-          <button type="button" onClick={enableUpdate}>
-            Edit
-          </button>
-          <button type="button" onClick={handleDelete}>
-            Delete
-          </button>
-        </>
-      )}
-    </div>
+      </td>
+      <td>
+        <input
+          type="text"
+          name="created at"
+          value={inputs.createdAt.slice(0, 10)}
+          onChange={handleChange}
+          disabled
+        />
+      </td>
+      <td>
+        {showEditOptions ? (
+          <>
+            <Button type="button" onClick={handleUpdate}>
+              Update
+            </Button>
+            <Button type="button" onClick={handleCancel}>
+              Cancel
+            </Button>
+          </>
+        ) : (
+          <>
+            <Button type="button" onClick={enableUpdate}>
+              Edit
+            </Button>
+            <Button type="button" onClick={handleDelete}>
+              Delete
+            </Button>
+          </>
+        )}
+      </td>
+    </tr>
   );
 };
 

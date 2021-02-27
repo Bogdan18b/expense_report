@@ -1,6 +1,22 @@
 import { useState } from "react";
 import gql from "graphql-tag";
 import { useMutation } from "@apollo/react-hooks";
+import { Button } from "./TableRow";
+import styled from "styled-components";
+
+export const Form = styled.form`
+  fieldset {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--blue);
+  }
+  label, input {
+    display: block;
+    padding: 8px;
+  }
+  label {
+  }
+`;
 
 const REQUEST_RESET_MUTATION = gql`
   mutation REQUEST_RESET_MUTATION($email: String!) {
@@ -24,7 +40,7 @@ const RequestPasswordReset: React.FC = () => {
   const isSubmitDisabled = email === "";
 
   return (
-    <form>
+    <Form>
       <fieldset>
         <h2>Reset Password</h2>
         <label htmlFor="email">
@@ -36,15 +52,15 @@ const RequestPasswordReset: React.FC = () => {
             onChange={updateEmail}
           />
         </label>
-        <button
+        <Button
           type="submit"
           disabled={isSubmitDisabled}
           onClick={handleSubmit}
         >
           Request Reset
-        </button>
+        </Button>
       </fieldset>
-    </form>
+    </Form>
   );
 };
 
