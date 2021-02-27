@@ -8,10 +8,8 @@ const Wrapper = styled.header`
   justify-content: space-between;
   section {
     display: flex;
-    align-items: center
-    p {
-      margin-right: 10px;
-    }
+    flex-direction: column;
+    align-items: center;
   }
 `;
 

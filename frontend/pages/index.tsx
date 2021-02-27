@@ -1,14 +1,17 @@
-import styled from "styled-components";
+import { useState } from "react";
 import SignUp from "../components/SignUp";
 import SignIn from "../components/SignIn";
-import RequestReset from "../components/RequestReset";
+import styled from "styled-components";
 
 const Home: React.FC = () => {
+  const [isNewUser, setIsNewUser] = useState(true);
   return (
     <>
-      <SignUp />
-      <SignIn />
-      <RequestReset />
+      {isNewUser ? (
+        <SignUp setIsNewUser={setIsNewUser} />
+      ) : (
+        <SignIn setIsNewUser={setIsNewUser} />
+      )}
     </>
   );
 };

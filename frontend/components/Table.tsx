@@ -8,6 +8,7 @@ const Wrapper = styled.table`
   th,
   tr {
     border: 1px solid black;
+    text-align: center;
   }
   input {
     border: none;
@@ -37,16 +38,20 @@ type Props = {
 
 const Table: React.FC<Props> = ({ edges = [], type, refetch }) => (
   <Wrapper>
-    <tr>
-      <th>Amount</th>
-      <th>Category</th>
-      <th>Description</th>
-      <th>Date</th>
-      <th>Options</th>
-    </tr>
-    {edges.map(({ node }) => (
-      <TableRow key={node.id} {...node} type={type} refetch={refetch} />
-    ))}
+    <thead>
+      <tr>
+        <th>Amount</th>
+        <th>Category</th>
+        <th>Description</th>
+        <th>Date</th>
+        <th>Options</th>
+      </tr>
+    </thead>
+    <tbody>
+      {edges.map(({ node }) => (
+        <TableRow key={node.id} {...node} type={type} refetch={refetch} />
+      ))}
+    </tbody>
   </Wrapper>
 );
 

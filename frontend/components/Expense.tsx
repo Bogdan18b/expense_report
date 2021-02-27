@@ -7,13 +7,20 @@ import { UserContext } from "./User";
 import Table from "./Table";
 import { getTotal } from "../lib/utils";
 import {Button} from './TableRow';
+
 type Props = {
   setExpenses: (total: number) => number;
 };
 
 export const Wrapper = styled.section`
-  form {
-    display: flex;
+`;
+
+export const Form = styled.form`
+  display: flex;
+  align-items: center;
+  input {
+    width: 100px;
+    margin: 0 8px;
   }
 `;
 
@@ -87,9 +94,9 @@ const Expense: React.FC<Props> = ({ setExpenses }) => {
   return (
     <Wrapper>
       <h4>Add Expense</h4>
-      <form>
+      <Form>
         <label htmlFor="amount">
-          Amount
+          Amount:
           <input
             type="number"
             name="amount"
@@ -98,7 +105,7 @@ const Expense: React.FC<Props> = ({ setExpenses }) => {
           />
         </label>
         <label htmlFor="category">
-          Category
+          Category:
           <input
             type="text"
             name="category"
@@ -107,7 +114,7 @@ const Expense: React.FC<Props> = ({ setExpenses }) => {
           />
         </label>
         <label htmlFor="comments">
-          Comments
+          Comments:
           <input
             type="text"
             name="comments"
@@ -122,7 +129,7 @@ const Expense: React.FC<Props> = ({ setExpenses }) => {
         >
           Add expense
         </Button>
-      </form>
+      </Form>
       <h4>All Expenses</h4>
       <Table edges={expenses} refetch={refetch} type="expense" />
     </Wrapper>

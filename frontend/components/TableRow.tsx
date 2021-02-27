@@ -1,18 +1,22 @@
 import gql from "graphql-tag";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import useForm from "../lib/useForm";
 import { useMutation } from "@apollo/react-hooks";
 import { Node } from "./Table";
 import styled from "styled-components";
 
 export const Button = styled.button`
-  background-color: blue;
+  background-color: var(--blue);
   border: none;
-  border-radius: 10px;
+  border-radius: 50vw;
   color: white;
-  padding: 4px;
+  padding: 4px 8px;
   margin: 2px;
-  width: 100px;
+  max-width: 200px;
+  height: 24px;
+  &:disabled {
+    background-color: lightgray;
+  }
 `;
 
 const UPDATE_INCOME_MUTATION = gql`
@@ -82,6 +86,7 @@ const TableRow: React.FC<Node> = ({
   type,
   refetch,
 }) => {
+  const inputRef = useRef(null);
   let { inputs, handleChange } = useForm({
     amount,
     category,
@@ -98,6 +103,10 @@ const TableRow: React.FC<Node> = ({
     setDisabled(false);
     setShowEditOptions(true);
   };
+
+  useEffect(() => {
+    inputRef.current.focus();
+  }, [disabled]);
 
   // TODO implement undo changes
   const handleCancel = () => {
@@ -122,42 +131,42 @@ const TableRow: React.FC<Node> = ({
   return (
     <tr>
       <td>
-
-      <input
-        type="number"
-        name="amount"
-        value={inputs.amount}
-        onChange={handleChange}
-        disabled={disabled}
+        <input
+          type="number"
+          name="amount"
+          value={inputs.amount}
+          onChange={handleChange}
+          disabled={disabled}
+          ref={inputRef}
         />
-        </td>
-        <td>
-      <input
-        type="text"
-        name="category"
-        value={inputs.category}
-        onChange={handleChange}
-        disabled={disabled}
-        />
-        </td>
-        <td>
-      <input
-      type="text"
-      name="comments"
-      value={inputs.comments}
-      onChange={handleChange}
-      disabled={disabled}
-      />
       </td>
       <td>
-      <input
-        type="text"
-        name="created at"
-        value={inputs.createdAt.slice(0, 10)}
-        onChange={handleChange}
-        disabled
+        <input
+          type="text"
+          name="category"
+          value={inputs.category}
+          onChange={handleChange}
+          disabled={disabled}
         />
-        </td>
+      </td>
+      <td>
+        <input
+          type="text"
+          name="comments"
+          value={inputs.comments}
+          onChange={handleChange}
+          disabled={disabled}
+        />
+      </td>
+      <td>
+        <input
+          type="text"
+          name="created at"
+          value={inputs.createdAt.slice(0, 10)}
+          onChange={handleChange}
+          disabled
+        />
+      </td>
       <td>
         {showEditOptions ? (
           <>

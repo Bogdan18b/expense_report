@@ -1,7 +1,7 @@
 import { useContext, useEffect } from "react";
 import gql from "graphql-tag";
 import { useMutation, useQuery } from "@apollo/react-hooks";
-import { Wrapper } from "./Expense";
+import { Wrapper, Form } from "./Expense";
 import useForm from "../lib/useForm";
 import { UserContext } from "./User";
 import Table from "./Table";
@@ -83,7 +83,7 @@ const Income: React.FC<Props> = ({ setIncome }) => {
   return (
     <Wrapper>
       <h4>Add Income</h4>
-      <form>
+      <Form>
         <label htmlFor="amount">
           Amount
           <input
@@ -118,7 +118,7 @@ const Income: React.FC<Props> = ({ setIncome }) => {
         >
           Add income
         </Button>
-      </form>
+      </Form>
       <h4>All Income</h4>
       <Table edges={incomes} type="income" refetch={refetch} />
     </Wrapper>
