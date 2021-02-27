@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { Dispatch, SetStateAction, useContext, useEffect } from "react";
 import gql from "graphql-tag";
 import { useMutation, useQuery } from "@apollo/react-hooks";
 import styled from "styled-components";
@@ -8,9 +8,9 @@ import Table from "./Table";
 import { getTotal } from "../lib/utils";
 import {Button} from './TableRow';
 
-type Props = {
-  setExpenses: (total: number) => number;
-};
+interface Props {
+  setExpenses: Dispatch<SetStateAction<number>>;
+}
 
 export const Wrapper = styled.section`
 `;

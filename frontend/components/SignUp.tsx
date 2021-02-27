@@ -8,7 +8,7 @@ import {Form} from './RequestReset';
 import {Wrapper} from './SignIn';
 
 type Props = {
-  setIsNewUser?: Dispatch<SetStateAction<boolean>>;
+  setIsNewUser: Dispatch<SetStateAction<boolean>>;
 }
 
 const SIGN_UP_MUTATION = gql`

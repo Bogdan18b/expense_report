@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { Dispatch, SetStateAction, useContext, useEffect } from "react";
 import gql from "graphql-tag";
 import { useMutation, useQuery } from "@apollo/react-hooks";
 import { Wrapper, Form } from "./Expense";
@@ -9,7 +9,7 @@ import {Button} from './TableRow';
 import { getTotal } from "../lib/utils";
 
 type Props = {
-  setIncome: (total: number) => number;
+  setIncome: Dispatch<SetStateAction<number>>;
 };
 
 const CREATE_INCOME_MUTATION = gql`

@@ -16,7 +16,7 @@ export const Wrapper = styled.div`
   justify-content: center;
 `;
 interface Props {
-  setIsNewUser?: Dispatch<SetStateAction<boolean>>;
+  setIsNewUser: Dispatch<SetStateAction<boolean>>;
 }
 
 const SIGN_IN_MUTATION = gql`
